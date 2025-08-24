@@ -1,12 +1,11 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View ,StatusBar} from 'react-native'
 import React from 'react'
 import { FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 const Home = () => {
     const navigation = useNavigation();
-    const homecategory = useSelector((state)=>state.Homecat)
-    console.log("homecategory",homecategory)
+    const homecategory = useSelector(state=>state.Homecat)
     const cattegoriesdata = [
       {
         id:"1",
@@ -76,11 +75,12 @@ const Home = () => {
     ]
   return (
     <SafeAreaView style={styles.container}>
-    <View style={{backgroundColor:"orange",paddingVertical:6,paddingHorizontal:10}}>
-    <Text style={{fontSize:14,fontWeight:"500"}}>Britannia</Text>
+    <StatusBar backgroundColor="orange"/>
+    <View style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10}}>
+    <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia</Text>
     </View>
    <FlatList
-  data={cattegoriesdata}
+  data={homecategory}
   keyExtractor={(item) => item.id}
   numColumns={3}
   contentContainerStyle={{

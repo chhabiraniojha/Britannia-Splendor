@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 import { addToCart } from "../Redux/Datasplice";
 import { useDispatch, useSelector } from 'react-redux';
+import { StatusBar } from 'react-native';
 const ProductList = () => {
     const navigation = useNavigation();
     const categories = useSelector(state => state.Productlist.data); // from store
@@ -479,10 +480,16 @@ const ProductList = () => {
   console.log("categoryid",id)
   const selectedCategory = ProductData.find(cat=>cat.categoryId === id);
   return (
-      <View style={{ flex: 1,}}>
-          <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:6,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
-            <Text style={{fontSize:14,fontWeight:"500"}}>⬅ Back</Text>
-            <Text style={{fontSize:14,fontWeight:"500"}}>Britannia ProductList</Text>
+      <View style={{ flex: 1,height:"100%"}}>
+          <StatusBar
+                  backgroundColor="orange"
+                  barStyle="light-content"
+                  translucent={false}
+                  hidden={false}
+                />
+          <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
+            <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>⬅ Back</Text>
+            <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia ProductList</Text>
             </TouchableOpacity>
       {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Products in Category {id}</Text> */}
 

@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet} from 'react-native';
 import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
 import Bill from './src/screens/Bill';
@@ -11,10 +10,7 @@ import ProductDetails from './src/screens/ProductDetails';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-// import { store, persistor } from "./src/Redux/Store";
-import 'expo-dev-client'
-import { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
-const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-xxxxxxxxxxxxx/yyyyyyyyyyyyyy';
+import { store, persistor } from "./src/Redux/Store";
  function MainTabs() {
   const Tab = createBottomTabNavigator();
   const getTabBarIcon = (routeName,focused,color,size)=>{
@@ -49,28 +45,20 @@ const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER : 'ca-app-pub-xxxxxxxxxxxxx/y
 }
 export default function App() {
     const Stack = createStackNavigator();
-      const bannerRef = useRef<BannerAd>(null);
   return (
-    //   <Provider store={store}>
-    //   <PersistGate loading={null} persistor={persistor}>    
-    // <NavigationContainer>
-    //   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //     {/* Main Tabs */}
-    //     <Stack.Screen name="MainTabs" component={MainTabs} />
-    //     {/* Hidden/Detail Screens */}
-    //     <Stack.Screen name="ProductList" component={ProductList} />
-    //     <Stack.Screen name="ProductDetails" component={ProductDetails} />
-    //   </Stack.Navigator>
-    // </NavigationContainer>
-    //     </PersistGate>
-    //     </Provider>
-    <View style={{flex:1}}>
-      <Text>Banner Add</Text>
-      <BannerAd 
-      ref={bannerRef} 
-      unitId={adUnitId} 
-      size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
-    </View>
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>    
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {/* Main Tabs */}
+        <Stack.Screen name="MainTabs" component={MainTabs} />
+        {/* Hidden/Detail Screens */}
+        <Stack.Screen name="ProductList" component={ProductList} />
+        <Stack.Screen name="ProductDetails" component={ProductDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
+        </PersistGate>
+        </Provider>
   );
 }
 

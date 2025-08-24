@@ -6,6 +6,7 @@ import { Image } from 'react-native'
 import { useDispatch, useSelector } from "react-redux";
 import { selectProduct, unselectProduct } from "../Redux/Datasplice";
 import { Alert } from 'react-native'
+import { StatusBar } from 'react-native'
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,16 @@ const ProductDetails = () => {
     console.log("cartcategory",cartcategory)
     const [Add,setAdd] = useState(true)
   return (
-    <View>
-         <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:6,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
-        <Text style={{fontSize:14,fontWeight:"500"}}>⬅ Back</Text>
-         <Text style={{fontSize:14,fontWeight:"500"}}>Britannia ProductDetails</Text>
+    <View style={{flex:1,height:"100%"}}>
+        <StatusBar
+                  backgroundColor="orange"
+                  barStyle="light-content"
+                  translucent={false}
+                  hidden={false}
+                />
+         <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:25,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
+        <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>⬅ Back</Text>
+         <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia ProductDetails</Text>
        </TouchableOpacity>
        <View>
        {addcart === true?<Text style={{textAlign:"center"}}>Added to cart</Text>:null}

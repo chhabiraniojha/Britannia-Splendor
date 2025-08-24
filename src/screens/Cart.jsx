@@ -5,17 +5,71 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 import { unselectProduct,clearCart } from '../Redux/Datasplice';
-
+import {RewardedAd, RewardedAdEventType, TestIds } from 'react-native-google-mobile-ads';
+import { StatusBar } from 'react-native';
+const adUnitId = __DEV__ ? TestIds.REWARDED : 'ca-app-pub-1610234648570470~5461500573';
+const rewarded = RewardedAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+});
 const Cart = () => {
    const navigation = useNavigation();
+   const [bill,setbill] = useState(false)
      const alldata = useSelector(state => state.Productlist.data); // from store
-         const [bill,setbill] = useState(false)
      console.log("redux data",alldata)
        const cartcategory = useSelector((state)=>state.Productlist.cartByCategory);
          console.log("cartcategory",cartcategory)
          const [cartDetails,setCartDetails] = useState([])
    const dispatch = useDispatch();
      const [refresh, setRefresh] = useState(false);
+         const [loaded, setLoaded] = useState(false);
+    // total products count
+  const totalProducts = alldata?.reduce((acc, cat) => acc + cat.ProductList.length, 0);
+
+  // selected products count
+  const selectedCount = Object.values(cartcategory).flat().length // flatten all arrays;
+   
+  useEffect(() => {
+    const unsubscribeLoaded = rewarded.addAdEventListener(
+      RewardedAdEventType.LOADED,
+      () => {
+        setLoaded(true);
+      }
+    );
+
+    const unsubscribeEarned = rewarded.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      reward => {
+        console.log('User earned reward of ', reward);
+      }
+    );
+  //    const unsubscribeClosed = rewarded.addAdEventListener(
+  //   RewardedAdEventType.CLOSED,
+  //   console.log('Rewardedadd',RewardedAdEventType),
+  //   () => {
+  //     console.log("Ad closed. Loading new ad...");
+  //     setLoaded(false);   // ad close hone ke baad hi reset
+  //     rewarded.load();    // yahi se naya ad load hoga
+  //   }
+  // );
+    // Pehle load karna
+    rewarded.load();
+
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeEarned();
+      // unsubscribeClosed()
+    };
+  }, []);
+
+  const showAd = () => {
+    if (loaded) {
+      rewarded.show();
+      setLoaded(false); // dubara load karne ke liye reset
+      rewarded.load();
+    } else {
+      console.log("Ad abhi load nahi hua");
+    }
+  };
 useEffect(() => {
   let details = [];
   // Loop through each category in cart
@@ -30,19 +84,33 @@ useEffect(() => {
           // push them into details
       details.push(...products.map(p => ({ ...p, categoryId })));
     }
-  }   
-  setCartDetails(details);
+  }  
+    // Final deduplication: only allow unique categoryId + ProductId combination
+  const uniqueDetails = details.filter(
+    (item, index, self) =>
+      index === self.findIndex(
+        p => p.categoryId === item.categoryId && p.ProductId === item.ProductId
+      )
+  ); 
+  setCartDetails(uniqueDetails);
 }, [cartcategory, alldata]); 
    return (
-       <View style={{ flex: 1,}}>
-           <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:6,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
-             <Text style={{fontSize:14,fontWeight:"500"}}>⬅ Back</Text>
-             <Text style={{fontSize:14,fontWeight:"500"}}>Britannia ProductList</Text>
+       <View style={{ flex: 1,height:"100%",marginBottom:10}}>
+          <StatusBar
+                  backgroundColor="orange"
+                  barStyle="light-content"
+                  translucent={false}
+                  hidden={false}
+                />
+           <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
+             <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>⬅ Back</Text>
+             <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia ProductList</Text>
              </TouchableOpacity>
               {bill === true?<Text style={{textAlign:"center"}}>Bill Generated Successfully</Text>:null}
          <FlatList
+         showsVerticalScrollIndicator={false}
            data={cartDetails}
-           keyExtractor={item => item.ProductId}
+  keyExtractor={item => `${item.categoryId}-${item.ProductId}`}
            renderItem={({ item }) => (
              <TouchableOpacity onPress={()=>navigation.navigate('ProductDetails',{product:item,id:id})} style={styles.item}>
              <View style={styles.imageContainer}>
@@ -63,19 +131,42 @@ useEffect(() => {
              </TouchableOpacity>
            )}
            />
-            {Object.values(cartcategory).length >0 &&( 
-           <TouchableOpacity onPress={()=>{
-              dispatch(clearCart()); // remove all items from Redux
-              setbill(true)
-            setTimeout(()=>{
-              setbill(false)
-             navigation.navigate('Bill')
-            },1000)
-           }}>
-           <Text style={{textAlign:"center"}}>Generate Bill</Text>
-           </TouchableOpacity>
-            )
-          }
+          {Object.values(cartcategory).length > 0 && (
+  <TouchableOpacity
+    onPress={() => {
+      if (totalProducts > 0 && selectedCount === totalProducts) {
+  Alert.alert(
+    "All Products Selected",
+    "This service is for our premium member!",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => showAd(),
+      },
+    ],
+    { cancelable: true }
+  );
+        dispatch(clearCart()); // remove all items from Redux
+        return; // ⬅️ ye important hai, niche ka code ab execute nahi hoga
+      }
+      // agar condition false hai tabhi ye chalega
+      dispatch(clearCart()); // remove all items from Redux
+      setbill(true);
+      setTimeout(() => {
+        setbill(false);
+        navigation.navigate("Bill");
+      }, 1000);
+    }}
+    style={{ margin: "auto", alignItems: "center", justifyContent: "center" }}
+  >
+    <Text style={{ textAlign: "center" }}>Generate Bill</Text>
+  </TouchableOpacity>
+)}
      </View>
  
    )
