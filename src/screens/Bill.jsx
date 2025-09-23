@@ -1,21 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'react-native'
+import { SafeAreaView } from 'react-native'
+import Indicator from '../components/Indicator'
+import { Logout, setIsAuthenticate } from '../Redux/loginSlice'
+import { useDispatch } from 'react-redux'
 
 const Bill = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+  const logOutMain = ()=>{
+      dispatch(setIsAuthenticate(false))
+      dispatch(Logout())
+  }
   return (
-    <View style={{flex:1}}>
+    <SafeAreaView style={{flex:1}}>
           <StatusBar
            backgroundColor="orange"
            />
-       <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
-                   <Text style={{fontSize:14,fontWeight:"500" , marginTop:10}}>⬅ Back</Text>
-                   <Text style={{fontSize:14,fontWeight:"500" , marginTop:10}}>Britannia Bill</Text>
-                   </TouchableOpacity>
+         <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+    <Text style={{fontSize:14,fontWeight:"500"}}>Britannia Bill</Text>
+    <Indicator/>
     </View>
+<TouchableOpacity onPress={logOutMain}>
+  <Text>Logout</Text>
+</TouchableOpacity>
+    </SafeAreaView>
   )
 }
 

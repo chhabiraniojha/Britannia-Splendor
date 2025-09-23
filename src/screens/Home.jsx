@@ -1,10 +1,12 @@
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View ,StatusBar} from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View ,StatusBar, Dimensions} from 'react-native'
 import React from 'react'
 import { FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
+import Indicator from '../components/Indicator'
 const Home = () => {
     const navigation = useNavigation();
+    const ScreenWidth = Dimensions.get("window").width
     const homecategory = useSelector(state=>state.Homecat)
     const cattegoriesdata = [
       {
@@ -75,9 +77,10 @@ const Home = () => {
     ]
   return (
     <SafeAreaView style={styles.container}>
-    <StatusBar backgroundColor="orange"/>
-    <View style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10}}>
-    <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia</Text>
+    <StatusBar backgroundColor="orange" hidden={false} translucent={false} barStyle='light-content'/>
+    <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+    <Text style={{fontSize:14,fontWeight:"500"}}>Britannia</Text>
+    <Indicator/>
     </View>
    <FlatList
   data={homecategory}
@@ -86,12 +89,12 @@ const Home = () => {
   contentContainerStyle={{
     paddingVertical: 10,
   }}
-  columnWrapperStyle={{
-    justifyContent: "space-around", // even spacing between items
-  }}
+  columnWrapperStyle={({rowIndex})=>({
+    justifyContent: rowIndex ===Math.floor(homecategory.length/3)?"flex-start":"space-around", // even spacing between items
+  })}
   renderItem={({ item }) => {
     return (
-      <View style={styles.itemContainer}>
+      <View style={[styles.itemContainer,{width:ScreenWidth/3}]}>
         <TouchableOpacity onPress={()=>navigation.navigate('ProductList',{id:item.id})}>
         <View style={styles.imageContainer}>
           <Image
@@ -118,9 +121,10 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     alignItems: "center",
-    justifyContent: "center",
-    width: 100, // ensures each takes equal width
+    // justifyContent: "center",
+    // width: ScreenWidth/3, // ensures each takes equal width
     marginVertical: 10,
+    // backgroundColor:"red"
   },
   imageContainer: {
     width: 60,
@@ -128,6 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#fff",
     justifyContent: "center",
+    alignSelf:"center",
     alignItems: "center",
     overflow: "hidden",
     shadowColor: "#000",
@@ -143,8 +148,9 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 12,
     textAlign: "center",
+    alignContent:'center',
     marginTop: 5,
     flexWrap: "wrap",
-    width: 80,
+    width: 90,
   },
 });

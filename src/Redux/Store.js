@@ -3,6 +3,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import cartReducer from "./Datasplice";
 import HomecategoryReducer from './CategoryProduct'
+import getThemeReducer from '../Redux/themeSlice'
+import loginReducer from './loginSlice'; 
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 const persistConfig = {
   key: "Root",
@@ -12,6 +14,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   Productlist: cartReducer,
   Homecat: HomecategoryReducer,
+   theme:getThemeReducer,
+   login: loginReducer,
 });
 const persistedCartReducer = persistReducer(persistConfig,rootReducer);
 

@@ -1,23 +1,23 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 import { unselectProduct,clearCart } from '../Redux/Datasplice';
-import {RewardedAd, RewardedAdEventType, TestIds } from 'react-native-google-mobile-ads';
+// import {RewardedAd, RewardedAdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { StatusBar } from 'react-native';
-const adUnitId = __DEV__ ? TestIds.REWARDED : 'ca-app-pub-1610234648570470~5461500573';
-const rewarded = RewardedAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
-});
+import Indicator from '../components/Indicator';
+import { Colors } from './Colors';
+// const adUnitId = __DEV__ ? TestIds.REWARDED : 'ca-app-pub-1610234648570470~5461500573';
+// const rewarded = RewardedAd.createForAdRequest(adUnitId, {
+//   keywords: ['fashion', 'clothing'],
+// });
 const Cart = () => {
    const navigation = useNavigation();
    const [bill,setbill] = useState(false)
      const alldata = useSelector(state => state.Productlist.data); // from store
-     console.log("redux data",alldata)
        const cartcategory = useSelector((state)=>state.Productlist.cartByCategory);
-         console.log("cartcategory",cartcategory)
          const [cartDetails,setCartDetails] = useState([])
    const dispatch = useDispatch();
      const [refresh, setRefresh] = useState(false);
@@ -27,49 +27,50 @@ const Cart = () => {
 
   // selected products count
   const selectedCount = Object.values(cartcategory).flat().length // flatten all arrays;
-   
-  useEffect(() => {
-    const unsubscribeLoaded = rewarded.addAdEventListener(
-      RewardedAdEventType.LOADED,
-      () => {
-        setLoaded(true);
-      }
-    );
+   const countStr = selectedCount.toString();
+const isCircle = countStr.length <= 2;
+  // useEffect(() => {
+  //   const unsubscribeLoaded = rewarded.addAdEventListener(
+  //     RewardedAdEventType.LOADED,
+  //     () => {
+  //       setLoaded(true);
+  //     }
+  //   );
 
-    const unsubscribeEarned = rewarded.addAdEventListener(
-      RewardedAdEventType.EARNED_REWARD,
-      reward => {
-        console.log('User earned reward of ', reward);
-      }
-    );
-  //    const unsubscribeClosed = rewarded.addAdEventListener(
-  //   RewardedAdEventType.CLOSED,
-  //   console.log('Rewardedadd',RewardedAdEventType),
-  //   () => {
-  //     console.log("Ad closed. Loading new ad...");
-  //     setLoaded(false);   // ad close hone ke baad hi reset
-  //     rewarded.load();    // yahi se naya ad load hoga
+  //   const unsubscribeEarned = rewarded.addAdEventListener(
+  //     RewardedAdEventType.EARNED_REWARD,
+  //     reward => {
+  //       console.log('User earned reward of ', reward);
+  //     }
+  //   );
+  // //    const unsubscribeClosed = rewarded.addAdEventListener(
+  // //   RewardedAdEventType.CLOSED,
+  // //   console.log('Rewardedadd',RewardedAdEventType),
+  // //   () => {
+  // //     console.log("Ad closed. Loading new ad...");
+  // //     setLoaded(false);   // ad close hone ke baad hi reset
+  // //     rewarded.load();    // yahi se naya ad load hoga
+  // //   }
+  // // );
+  //   // Pehle load karna
+  //   rewarded.load();
+
+  //   return () => {
+  //     unsubscribeLoaded();
+  //     unsubscribeEarned();
+  //     // unsubscribeClosed()
+  //   };
+  // }, []);
+
+  // const showAd = () => {
+  //   if (loaded) {
+  //     rewarded.show();
+  //     setLoaded(false); // dubara load karne ke liye reset
+  //     rewarded.load();
+  //   } else {
+  //     console.log("Ad abhi load nahi hua");
   //   }
-  // );
-    // Pehle load karna
-    rewarded.load();
-
-    return () => {
-      unsubscribeLoaded();
-      unsubscribeEarned();
-      // unsubscribeClosed()
-    };
-  }, []);
-
-  const showAd = () => {
-    if (loaded) {
-      rewarded.show();
-      setLoaded(false); // dubara load karne ke liye reset
-      rewarded.load();
-    } else {
-      console.log("Ad abhi load nahi hua");
-    }
-  };
+  // };
 useEffect(() => {
   let details = [];
   // Loop through each category in cart
@@ -95,17 +96,33 @@ useEffect(() => {
   setCartDetails(uniqueDetails);
 }, [cartcategory, alldata]); 
    return (
-       <View style={{ flex: 1,height:"100%",marginBottom:10}}>
+       <SafeAreaView style={{ flex: 1,height:"100%",marginBottom:10}}>
           <StatusBar
                   backgroundColor="orange"
                   barStyle="light-content"
                   translucent={false}
                   hidden={false}
                 />
-           <TouchableOpacity onPress={()=>navigation.goBack()} style={{backgroundColor:"orange",paddingVertical:20,paddingHorizontal:10,display:"flex",flexDirection:"row",alignItems:"center",gap:15}}>
-             <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>⬅ Back</Text>
-             <Text style={{fontSize:14,fontWeight:"500",marginTop:10}}>Britannia ProductList</Text>
-             </TouchableOpacity>
+    <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+    <Text style={{fontSize:14,fontWeight:"500"}}>SelectedProductList</Text>
+    <Indicator/>
+   <View
+  style={{
+    minWidth: 20,
+    height: 20,
+    borderRadius: isCircle ? 10 : 6, // circle = full radius, square/pill = small radius
+    backgroundColor: "red",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: isCircle ? 0 : 8, // horizontal padding for 3+ digits
+    paddingVertical: isCircle ? 0 : 5,  // optional vertical padding
+  }}
+>
+  <Text style={{ color: "white", fontWeight: "bold", fontSize: 12, textAlign: "center",paddingHorizontal:5 }}>
+    {selectedCount}
+  </Text>
+</View>
+    </View>
               {bill === true?<Text style={{textAlign:"center"}}>Bill Generated Successfully</Text>:null}
          <FlatList
          showsVerticalScrollIndicator={false}
@@ -116,7 +133,7 @@ useEffect(() => {
              <View style={styles.imageContainer}>
              <Image source={{uri:item.image}} resizeMode='contain' style={styles.image} />
               </View>
-              <View>
+              <View style={styles.textContainer}>
                <Text style={styles.name}>{item.ProductName}</Text>
                <Text style={styles.name}>{item.ProductTittle}</Text>
                <Text style={styles.name}>{item.Shortdiscription}</Text>
@@ -162,12 +179,12 @@ useEffect(() => {
         navigation.navigate("Bill");
       }, 1000);
     }}
-    style={{ margin: "auto", alignItems: "center", justifyContent: "center" }}
+    style={{ margin: "auto", alignItems: "center", justifyContent: "center",backgroundColor:Colors.Appcolor,paddingHorizontal:20,paddingVertical:5,borderRadius:8,width:"94%" }}
   >
-    <Text style={{ textAlign: "center" }}>Generate Bill</Text>
+    <Text style={{ textAlign: "center",color:"white" }}>Generate Bill</Text>
   </TouchableOpacity>
 )}
-     </View>
+     </SafeAreaView>
  
    )
  }
@@ -179,26 +196,14 @@ useEffect(() => {
      padding: 12,
      borderBottomWidth: 1,
      borderBottomColor: '#ddd',
-     display:"flex",
      alignItems:"center",
      flexDirection:"row",
+     width:"100%",
      gap:10,
    },
-   tick:{
-   height:10,
-   width:10,
-   borderRadius:20,
-   backgroundColor:"green",
-   justifyContent: "center",
-   alignItems: "center",
-   overflow: "hidden",
-   shadowColor: "#000",
-   shadowOffset: { width: 0, height: 2 },
-   shadowOpacity: 0.2,shadowRadius: 3,
-   elevation: 5,
-   marginBottom:"30%",
-   //  marginRight:"5%"
-   gap:20
+   textContainer:{
+    flex:1,
+    overflow:"hidden"
    },
    name: {
      fontSize: 16
