@@ -9,7 +9,10 @@ const initialState = {
   password: '',
   rememberMe: false,
   IsAuthenticate:null,
-  userTimer:null
+  // userTimer:null,
+  startTimer:null,
+  timeDuration:null,
+  productNeed:null
 };
 
 // Create the slice
@@ -42,13 +45,22 @@ const loginSlice = createSlice({
  setIsAuthenticate: (state, action) => {
   state.IsAuthenticate = action.payload; // true / false
 },
-Setuser(state,action){
-  state.userTimer = action.payload
+// Setuser(state,action){
+//   state.userTimer = action.payload
+// },
+// RemoveUser(state){
+//   state.userTimer = null
+// },
+setStartTimer(state,action){
+  state.startTimer = action.payload
 },
-RemoveUser(state){
-  state.userTimer = null
+setTimeDuration(state,action){
+  state.timeDuration = action.payload
+},
+setProductNeed(state,action){
+  state.productNeed = action.payload
 }
   },
 });
-export const {Logout,login,setCredentials,clearCredentials,setIsAuthenticate,Setuser,RemoveUser,setVideoAddStatus} = loginSlice.actions
+export const {Logout,login,setCredentials,setProductNeed,clearCredentials,setStartTimer,setTimeDuration,setIsAuthenticate,Setuser,RemoveUser,setVideoAddStatus} = loginSlice.actions
 export default loginSlice.reducer;

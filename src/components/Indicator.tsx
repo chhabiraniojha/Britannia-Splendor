@@ -3,24 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 const Indicator = () => {
-  const user = useSelector((state:any) => state.login?.userTimer?.userDetails);
-  //  const timerStart = user?.timerStart;
-   const timerStart = "2025-09-23 18:35:00"
-   const timerDuration = user?.timerDuration
-   const [timeLeft, setTimeLeft] = useState(() => {
-    // convert the timeStart in to string
-  const startTime = new Date(timerStart).getTime();
-  // convert timeduration into second to miliseconds and calculate timestamp in miliseconds
-  const endTime = startTime + timerDuration * 1000;
-//  Calculates remaining seconds by subtracting current time from endTime.
-//  Math.floor → rounds down to whole seconds.
-//  Math.max(0, ...) → ensures the timer never goes negative.
-  return Math.max(0, Math.floor((endTime - Date.now()) / 1000));
-});
+   const timerStart = useSelector((state:any) => state.login?.startTimer);
+  const timerDuration = useSelector((state:any) => state.login?.timeDuration);
+  const productNedd= useSelector((state:any) => state.login?.productNeed);
+   const [timeLeft, setTimeLeft] = useState(0);
+console.log("Redux state", timerStart, timerDuration)
 
    useEffect(() => {
     //Stop timer when reached 0
-  if (timeLeft <= 0) return;
+  if (!timerStart || !timerDuration) return;
+  // convert time string in to miliseconds
+  const startTime = new Date(timerStart).getTime();
+  // convert TimeDuration seconds to miliseconds and when the timer will reach 0
+  const endTime = startTime + timerDuration * 1000;
+  //set intialRemainingTime
+  setTimeLeft(Math.max(0,Math.floor((endTime - Date.now())/1000)));
    //Creates a timer that runs every 1 second
    //prerv= previous value time left
   const interval = setInterval(() => {
@@ -37,7 +34,7 @@ const Indicator = () => {
   }, 1000);
   // clean that fn that stop interval
   return () => clearInterval(interval);
-}, [timeLeft]);
+}, [timerStart,timerDuration]);
 
   
     // Convert seconds → mm:ss
@@ -58,12 +55,12 @@ const formatTime = (seconds: number) => {
         <Text style={styles.textsize}>{formatTime(timeLeft)}</Text>
          <View style={[styles.TimerIndicator,{backgroundColor:"green"}]}></View>
       </View>
-      <View style={styles.columnwise}>
+      {/* <View style={styles.columnwise}>
         <Text style={styles.textsize}>Fullfledge</Text>
          <View style={[styles.fullfledgeIndicator,{backgroundColor:"yellow"}]}></View>
-      </View>
+      </View> */}
       <View style={styles.columnwise}>
-        <Text style={styles.textsize}>Specifig</Text>
+        <Text style={styles.textsize}>{productNedd}</Text>
          <View style={[styles.PremiumIndicator,{backgroundColor:"red"}]}></View>
       </View>
     </View>

@@ -4,112 +4,622 @@ const cartSlice = createSlice({
   name: "Productlist",
 initialState:{
   data:  [
-      {
-                categoryId:"1",
-                ProductList:[
-                    {
-                        ProductId:"1",
-                        ProductName:"Protein",
-                        ProductTittle:"Growth Health",
-                        Shortdiscription:"About your health",
-                        Longdiscription:"How to mantain health",
-                        Mrp:"4550",
-                       image:"https://media.modicare.com/ProductCategory/thumb/HL1001%20Well%20Strong%20&%20Smart%20(Chocolate%20Flavour)_Big.webp",
-                       addedToCart:false
-                    },
-                    {
-                        ProductId:"2",
-                        ProductName:"Gainer",
-                        ProductTittle:"Growth Health",
-                        Shortdiscription:"About your health",
-                        Longdiscription:"How to mantain health",
-                        Mrp:"5550",
-                        image:"https://media.modicare.com/ProductCategory/thumb/HL1001%20Well%20Strong%20&%20Smart%20(Chocolate%20Flavour)_Big.webp",
-                        addedToCart:false
-                    },
-                    {
-                        ProductId:"3",
-                        ProductName:"Peanut Butter",
-                        ProductTittle:"Growth Health",
-                        Shortdiscription:"About your health",
-                        Longdiscription:"How to mantain health",
-                        Mrp:"2550",
-                       image:"https://media.modicare.com/ProductCategory/thumb/HL1001%20Well%20Strong%20&%20Smart%20(Chocolate%20Flavour)_Big.webp",
-                       addedToCart:false
-                    }
-                ]
-      },
-      {
-                categoryId:"2",
-                ProductList:[
-                    {
-                        ProductId:"1",
-                        ProductName:"Face Wash",
-                        ProductTittle:"Clean Skin",
-                        Shortdiscription:"About your skin",
-                        Longdiscription:"How to mantain skin",
-                        Mrp:"250",
-                        image:"https://media.modicare.com/ProductCategory/thumb/MCHL01_ZoomImage__27092023092445453324528.jpg",
-                        addedToCart:false
-                    },
-                    {
-                        ProductId:"2",
-                        ProductName:"Mosturizer",
-                        ProductTittle:"after wash used",
-                        Shortdiscription:"About your skin",
-                        Longdiscription:"How to mantain skin Glow",
-                        Mrp:"550",
-                        image:"https://media.modicare.com/ProductCategory/thumb/MCHL01_ZoomImage__27092023092445453324528.jpg",
-                        addedToCart:false
-                    },
-                    {
-                        ProductId:"3",
-                        ProductName:"Body Lotion",
-                        ProductTittle:"Maintain Body skin",
-                        Shortdiscription:"About your skin",
-                        Longdiscription:"How to mantain skin",
-                        Mrp:"1050",
-                        image:"https://media.modicare.com/ProductCategory/thumb/MCHL01_ZoomImage__27092023092445453324528.jpg",
-                        addedToCart:false
-                    }
-                ]
-      },
-      {
-                categoryId:"3",
-                ProductList:[
-                    {
-                        ProductId:"1",
-                        ProductName:"Noise",
-                        ProductTittle:"Good looking",
-                        Shortdiscription:"About your noise watch",
-                        Longdiscription:"How to mantain noise watch",
-                        Mrp:"4550",
-                        image:"https://media.modicare.com/ProductCategory/thumb/MJ1027_ZoomImage__121120240331291220400723.webp",
-                        addedToCart:false
-                    },
-                    {
-                        ProductId:"2",
-                        ProductName:"Fastrack",
-                        ProductTittle:"Fastrack",
-                        Shortdiscription:"About your watch",
-                        Longdiscription:"How to mantain watch look",
-                        Mrp:"6550",
-                       image:"https://media.modicare.com/ProductCategory/thumb/MJ1027_ZoomImage__121120240331291220400723.webp",
-                       addedToCart:false
-                    },
-                    {
-                        ProductId:"3",
-                        ProductName:"Sonota",
-                        ProductTittle:"Sonota",
-                        Shortdiscription:"About your snota watch",
-                        Longdiscription:"How to mantain sonota",
-                        Mrp:"3050",
-                        image:"https://media.modicare.com/ProductCategory/thumb/MJ1027_ZoomImage__121120240331291220400723.webp",
-                        addedToCart:false
-                    }
-                ]
-      },
-      {
+        {
+         categoryId:"1",
+        ProductList:[
+        {
+          ProductId: "1",
+          ProductName: "Noni Juice Concentrate",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Natural health booster",
+          Longdiscription: "A concentrate made from Noni fruit enriched with Kokum to support immunity, energy, and wellness.",
+          Mrp: "550",
+          image: "https://m.media-amazon.com/images/I/31E2MBm6iCL._SX466_.jpg", // Promo image URL 
+          addedToCart: false
+        },
+        {
+          ProductId: "2",
+          ProductName: "Strong And Smart",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Children’s nutritional powder",
+          Longdiscription: "A balanced nutritional drink mix with 36-37 vital nutrients to support growth, immunity & brain development.",
+          Mrp: "702",
+          image: "https://m.media-amazon.com/images/I/61RYnDscp-L._SL1500_.jpg", // Product image URL 
+          addedToCart: false
+        },
+        {
+          ProductId: "3",
+          ProductName: "Calcium Complex",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Bone strength formula",
+          Longdiscription: "Supports healthy bones and joints with essential calcium.",
+          Mrp: "520",
+          image: "https://tse2.mm.bing.net/th/id/OIP.pPXoqzoqhRKhdGdp0mI13QHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "4",
+          ProductName: "Multivitamin Multimineral",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Daily health support",
+          Longdiscription: "A blend of vitamins and minerals for daily nutrition.",
+          Mrp: "440",
+          image: "https://th.bing.com/th/id/OIP.CYlZxvwHyx2IDQZ-9mKBvwHaHa?w=164&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "5",
+          ProductName: "D Tox",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Body detox support",
+          Longdiscription: "Helps cleanse toxins from the body naturally.",
+          Mrp: "550",
+          image: "https://th.bing.com/th/id/OIP.6udzjS9-4uP9J0_ff0bpzwHaHa?w=164&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "6",
+          ProductName: "Protein Crest",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Protein supplement",
+          Longdiscription: "High-quality protein to support muscle growth and recovery.",
+          Mrp: "1470",
+          image: "https://th.bing.com/th/id/OIP.fgTGXpwIwoB3iSVE2Z4cUQHaHn?w=193&h=199&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "7",
+          ProductName: "Glucosamine With Boswellia & Curcumin",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Joint support",
+          Longdiscription: "Helps maintain joint flexibility and mobility.",
+          Mrp: "1548",
+          image: "https://th.bing.com/th/id/OIP.6aKRFkSnJTEURdfYE9W0bwHaIi?w=136&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "8",
+          ProductName: "Amrit Shakti",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Energy booster",
+          Longdiscription: "Improves vitality and supports overall health.",
+          Mrp: "452",
+          image: "https://th.bing.com/th/id/OIP.Z4bjnC5UJ9TvJWW4H3oNAAHaJD?w=145&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "9",
+          ProductName: "Korean Red Ginseng",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Immunity support",
+          Longdiscription: "Enhances stamina, strength, and immunity.",
+          Mrp: "2378",
+          image: "https://th.bing.com/th/id/OIP.DXu2aJsNvEhS9hGbw7VNuQHaIj?w=160&h=186&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "10",
+          ProductName: "Intellecte",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Brain health",
+          Longdiscription: "Supports focus, memory, and cognitive functions.",
+          Mrp: "1140",
+          image: "https://th.bing.com/th/id/OIP.XUo4zkODKyv7stPutnfleAHaIi?w=133&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "11",
+          ProductName: "Flax Oil",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Omega-3 source",
+          Longdiscription: "Rich in essential fatty acids to support heart health.",
+          Mrp: "653",
+          image: "https://th.bing.com/th/id/OIP.2puVSKbLjxYB3-E0LErS0AHaHa?w=159&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "12",
+          ProductName: "Liver Regen",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Liver support",
+          Longdiscription: "Helps detoxify and protect liver functions.",
+          Mrp: "1550",
+          image: "https://th.bing.com/th/id/OIP.OXc_oUH3ifQJiIxZHIcHIwHaHa?w=167&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "13",
+          ProductName: "Kidney Regen",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Kidney health",
+          Longdiscription: "Supports healthy kidney functions and detoxification.",
+          Mrp: "1550",
+          image: "https://th.bing.com/th/id/OIP.vc4hh-txPR___7Pe7C1fFAAAAA?w=154&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "14",
+          ProductName: "Asht Tulsi Drops",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Immunity booster",
+          Longdiscription: "Natural Tulsi extract to enhance immunity.",
+          Mrp: "235",
+          image: "https://th.bing.com/th/id/OIP.CvXDvSs4zVZOPQ-c0dEhSwHaHX?w=166&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "15",
+          ProductName: "Noni Gold Juice with Gold Bhasma",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Premium wellness juice",
+          Longdiscription: "Enriched with gold bhasma for enhanced health benefits.",
+          Mrp: "1299",
+          image: "https://tse2.mm.bing.net/th/id/OIP.CGvq5tIMtD1aRM6ZjJcooQAAAA?pid=ImgDet&w=184&h=276&c=7&dpr=1.3&o=7&rm=3", // Gold Bhasma image 
+          addedToCart: false
+        },
+        {
+          ProductId: "16",
+          ProductName: "Shilajit Ojas Gold with Kesar & Safed Musli",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Strength & stamina",
+          Longdiscription: "Enhances strength, vitality, and energy levels.",
+          Mrp: "1699",
+          image: "https://th.bing.com/th/id/OIP.vtz66ssTZzhG08_NHRmsogHaIi?w=143&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "17",
+          ProductName: "Omega 3 Antractic krill oil",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Heart support",
+          Longdiscription: "Supports heart, brain, and eye health with Omega-3.",
+          Mrp: "899",
+          image: "https://th.bing.com/th/id/OIP.6Tf9qRxeee3OP8DfomwVPQHaIi?w=155&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "18",
+          ProductName: "Spirulina",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Natural superfood",
+          Longdiscription: "Rich in protein, vitamins, and minerals for energy and health.",
+          Mrp: "650",
+          image: "https://m.media-amazon.com/images/I/31whpGr-B7L.jpg", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "19",
+          ProductName: "Freedom Cream",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Green nutrition",
+          Longdiscription: "Helps detoxify and provides essential nutrients.",
+          Mrp: "720",
+          image: "https://th.bing.com/th/id/OIP.D9vzkJzxQWIEhrwzNIPO4gHaHa?w=165&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        },
+        {
+          ProductId: "20",
+          ProductName: "Aloe Vera Juice",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Digestive health",
+          Longdiscription: "Supports digestion and boosts immunity naturally.",
+          Mrp: "560",
+          image: "https://th.bing.com/th/id/OIP.wHO8xdoL_doQC3Yn1FZ4ugHaHa?w=182&h=182&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // Image not found
+          addedToCart: false
+        }
+        ]
+        },
+        {
+         categoryId:"2",
+        ProductList:[
+        {
+          ProductId: "1",
+          ProductName: "Moroccan Argan Oil Cleanser",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Gentle skin cleanser",
+          Longdiscription: "Infused with Moroccan Argan Oil to gently cleanse and hydrate skin.",
+          Mrp: "480",
+          image: "https://th.bing.com/th/id/OIP.QAQA2pWXWVTHn6wCHk5L-AAAAA?w=160&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", // sample from Amazon
+          addedToCart: false
+        },
+        {
+          ProductId: "2",
+          ProductName: "Repair & Balancing Milk Serum",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Skin repairing serum",
+          Longdiscription: "Balances skin moisture and repairs dull, damaged skin.",
+          Mrp: "1050",
+          image: "https://th.bing.com/th/id/OIP.wSXFL64PpVdq4ZwTiUbbfwHaIi?w=168&h=194&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3", 
+          addedToCart: false
+        },
+        {
+          ProductId: "3",
+          ProductName: "Repair and Balancing Moisturizer",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Daily moisturizer",
+          Longdiscription: "Hydrates skin deeply and maintains natural balance.",
+          Mrp: "1250",
+          image: "https://th.bing.com/th/id/OIP.7URqnGeaVE3KWj-InaLM1QHaIi?w=171&h=198&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "4",
+          ProductName: "Repair & Balancing Face Oil",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Nourishing face oil",
+          Longdiscription: "Lightweight oil to restore glow and strengthen skin barrier.",
+          Mrp: "1100",
+          image: "https://th.bing.com/th/id/OIP.tHkYu27MFZifwIGwLrffoQHaIi?w=150&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "5",
+          ProductName: "Repair & Balancing Foaming Face Wash",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Foaming cleanser",
+          Longdiscription: "Removes dirt, oil, and impurities without drying skin.",
+          Mrp: "900",
+          image: "https://5.imimg.com/data5/SELLER/Default/2024/6/427115660/VZ/EE/ME/116720004/modicare-hemp-lab-repair-balancing-foaming-face-wash-150ml-1000x1000.jpg",
+          addedToCart: false
+        },
+        {
+          ProductId: "6",
+          ProductName: "Repair & Balancing Face Scrub",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Exfoliating scrub",
+          Longdiscription: "Gently exfoliates and removes dead skin cells for radiant skin.",
+          Mrp: "950",
+          image: "https://th.bing.com/th/id/OIP.IFfMHbUFtW07rLOabD9mUAHaIi?w=156&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "7",
+          ProductName: "Argan Oil Of Morocco Facial Kit",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Facial kit",
+          Longdiscription: "Enriched with Argan Oil for nourished, glowing skin.",
+          Mrp: "260",
+          image: "https://th.bing.com/th/id/OIP.nTJOH7D-1cFtrSkzuVwzIQHaHa?w=172&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "8",
+          ProductName: "Gold Facial Kit",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Facial kit with gold extracts",
+          Longdiscription: "Provides radiant glow and rejuvenates skin naturally.",
+          Mrp: "260",
+          image: "https://th.bing.com/th/id/OIP.DhwChq683KMbq3AUIzZBJAHaHa?w=165&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "9",
+          ProductName: "Moor Mud Mask",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Detox face mask",
+          Longdiscription: "Rich in minerals, helps purify and tighten skin.",
+          Mrp: "540",
+          image: "https://th.bing.com/th/id/OIP.ORmdqHu0DrI0z7yXuJ6OmAHaHa?w=173&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          addedToCart: false
+        },
+        {
+          ProductId: "10",
+          ProductName: "Avocado Face Scrub With Oatmeal & Neroli",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Gentle face scrub",
+          Longdiscription: "Exfoliates with natural avocado and oatmeal extracts.",
+          Mrp: "305",
+          image: "https://th.bing.com/th/id/OIP.ackEp8yZh97Nrtpy8Vt9zgAAAA?w=184&h=140&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "11",
+          ProductName: "Moor Mud Facial Bar",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Cleansing facial bar",
+          Longdiscription: "Removes impurities and nourishes with natural mud minerals.",
+          Mrp: "394",
+          image: "https://th.bing.com/th/id/OIP.EqOK6rcstLSkYE3kk7d1nAAAAA?w=183&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "12",
+          ProductName: "Purifying Lime Peel & Neem Face Wash (Men)",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Men’s face wash",
+          Longdiscription: "Infused with neem & lime for oil control and freshness.",
+          Mrp: "215",
+          image: "https://tse2.mm.bing.net/th/id/OIP.2SmngQxDRcUV81hvZcN-EQAAAA?pid=ImgDet&w=184&h=202&c=7&dpr=1.3&o=7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "13",
+          ProductName: "Body Butter With Shea Butter & Almond Oil",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Body moisturizer",
+          Longdiscription: "Deeply nourishes skin with shea butter and almond oil.",
+          Mrp: "348",
+          image: "https://th.bing.com/th/id/OIP.8lPzFri2Bt6RxPCZX36vXwHaIi?w=160&h=186&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "14",
+          ProductName: "Fairness Cream With Rose & Honey",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Brightening cream",
+          Longdiscription: "Natural rose & honey for soft, glowing skin.",
+          Mrp: "290",
+          image: "https://th.bing.com/th/id/OIP.x7FM5tS6LdmJTtDrAKvH5AHaGN?w=208&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "15",
+          ProductName: "Sun Screen Cream Spf 50 Pa+++ With Vitamin E & Comfrey",
+          ProductTittle: "Quick View",
+          Shortdiscription: "SPF 50 sunscreen",
+          Longdiscription: "High protection with Vitamin E and comfrey extracts.",
+          Mrp: "360",
+          image: "https://th.bing.com/th/id/OIP.Buysec3rnqa3ouSYQk3l-wHaHW?w=173&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "16",
+          ProductName: "Sun Screen Cream Spf 30 Pa+++ With Gotukola & Cucumber",
+          ProductTittle: "Quick View",
+          Shortdiscription: "SPF 30 sunscreen",
+          Longdiscription: "Daily sun protection with cucumber and gotukola.",
+          Mrp: "290",
+          image: "https://th.bing.com/th/id/OIP.Buysec3rnqa3ouSYQk3l-wHaHW?w=173&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "17",
+          ProductName: "Hydra - Nourish Facial Cream",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Facial cream with Shea Butter, Almond & Olive Oil",
+          Longdiscription: "Hydra-Nourish Facial Cream enriched with Shea Butter, Almond and Olive Oil to deeply hydrate and nourish skin.",
+          Mrp: "342",
+          image: "https://th.bing.com/th/id/OIP.G2-vr7P-q1-azuSMRJyfSgHaI_?w=138&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "18",
+          ProductName: "Rejuvenating Day Cream",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Day cream with Almond & Lavender",
+          Longdiscription: "Rejuvenating Day Cream formulated with Almond & Lavender to protect, moisturize and keep skin soft throughout the day.",
+          Mrp: "288",
+          image: "https://th.bing.com/th/id/OIP.LgSgUWeWFMG1Q2xq5FB0fAHaH4?w=158&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "19",
+          ProductName: "Glow Face Pack",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Face pack with Orange Peel and White Clay",
+          Longdiscription: "Glow Face Pack combines Orange Peel and White Clay to purify, brighten and rejuvenate your skin for a natural glow.",
+          Mrp: "240",
+          image: "https://th.bing.com/th/id/OIP.-QYr1b_kbooItKc9aJSooQHaHa?w=177&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        },
+        {
+          ProductId: "20",
+          ProductName: "Under Eye Cream",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Under eye cream with Ashwagandha & Gotukola",
+          Longdiscription: "Under Eye Cream enriched with Ashwagandha & Gotukola helps reduce dark circles, puffiness and revitalizes the delicate under-eye area.",
+          Mrp: "180",
+          image: "https://th.bing.com/th/id/OIP.7HvV-cYJDMnfw4zxoy7FfQAAAA?w=180&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+          addedToCart: false
+        }
+        ]
+        },
+        {
+        categoryId:"3",
+        ProductList:[
+        {
+          ProductId: "1",
+          ProductName: "Gayatri Pendant & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Elegant pendant & earrings set",
+          Longdiscription: "Gayatri Pendant & Earrings crafted with fine detailing for a graceful look.",
+          Mrp: "4899",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1011_ZoomImage__121120240230111992815464.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "2",
+          ProductName: "Swara Pendant & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Stylish pendant & earrings set",
+          Longdiscription: "Swara Pendant & Earrings designed for modern elegance and everyday wear.",
+          Mrp: "4899",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1012_ZoomImage__121120240248561629168863.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "3",
+          ProductName: "Advika Necklace & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Beautiful necklace with earrings",
+          Longdiscription: "Advika Necklace & Earrings perfect for festive and special occasions.",
+          Mrp: "3919",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1013_ZoomImage__121120240234191403207562.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "4",
+          ProductName: "Harini Mangalsutra",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Traditional Mangalsutra",
+          Longdiscription: "Harini Mangalsutra crafted with elegance for a timeless appeal.",
+          Mrp: "1329",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1014_ZoomImage__121120240313281119408006.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "5",
+          ProductName: "Chitra Mangalsutra",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Classic Mangalsutra",
+          Longdiscription: "Chitra Mangalsutra with intricate design, a perfect blend of tradition and style.",
+          Mrp: "1329",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1015_ZoomImage__12112024024108877109808.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "6",
+          ProductName: "Gaurika Mangalsutra",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Stylish Mangalsutra",
+          Longdiscription: "Gaurika Mangalsutra designed to enhance grace with a modern touch.",
+          Mrp: "1329",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1016_ZoomImage__12112024025856275240205.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "7",
+          ProductName: "Yashvi Mangalsutra",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Elegant Mangalsutra",
+          Longdiscription: "Yashvi Mangalsutra with beautiful detailing for everyday wear.",
+          Mrp: "1539",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1017_ZoomImage__12112024030329745009054.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "8",
+          ProductName: "Ekta Mangalsutra",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Designer Mangalsutra",
+          Longdiscription: "Ekta Mangalsutra symbolizes togetherness and elegance in one.",
+          Mrp: "1749",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1018_ZoomImage__12112024030106480668163.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "9",
+          ProductName: "Aashna Pendant",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Beautiful pendant",
+          Longdiscription: "Aashna Pendant crafted with finesse for a chic and trendy look.",
+          Mrp: "1609",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1019_ZoomImage__12112024023634997519953.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "10",
+          ProductName: "Inaya Pendant",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Stylish pendant",
+          Longdiscription: "Inaya Pendant with an elegant design that complements all outfits.",
+          Mrp: "1609",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1020_ZoomImage__121120240238241492667486.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "11",
+          ProductName: "Mahima Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Pair of designer bangles",
+          Longdiscription: "Mahima Bangles crafted for festive occasions with premium finish.",
+          Mrp: "4899",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1022_ZoomImage__121120240330291953991156.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "12",
+          ProductName: "Easha Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Set of 4 stylish bangles",
+          Longdiscription: "Easha Bangles with a beautiful design to enhance your traditional look.",
+          Mrp: "4199",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1025_ZoomImage__12112024033318420558549.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "13",
+          ProductName: "Kashvi Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Set of 4 bangles",
+          Longdiscription: "Kashvi Bangles designed for everyday elegance and charm.",
+          Mrp: "1609",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1028_ZoomImage__121120240332251824009369.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "14",
+          ProductName: "Ojaswi Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Set of 4 bangles",
+          Longdiscription: "Ojaswi Bangles with a modern touch, perfect for festive occasions.",
+          Mrp: "1609",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1030_ZoomImage__12112024035044668156852.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "15",
+          ProductName: "Chandrika Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Pair of bangles",
+          Longdiscription: "Chandrika Bangles with traditional artistry and timeless beauty.",
+          Mrp: "1609",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1032_ZoomImage__121120240335491825619326.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "16",
+          ProductName: "Tanvi Bangles",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Pair of bangles",
+          Longdiscription: "Tanvi Bangles designed with fine finish and elegant touch.",
+          Mrp: "1819",
+          image: "https://media.modicare.com/ProductCategory/thumb/mj1034_ZoomImage__13112024024423147385735.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "17",
+          ProductName: "Tanisha Ring",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Elegant designer ring",
+          Longdiscription: "Tanisha Ring crafted with precision to enhance your classy look.",
+          Mrp: "1049",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ1036_ZoomImage__121120240317381667948720.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "18",
+          ProductName: "Anvi Necklace & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Necklace & Earrings set",
+          Longdiscription: "Anvi Necklace & Earrings designed to add a regal charm to your look.",
+          Mrp: "3779",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ0101_ZoomImage__120320240951451764720619.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "19",
+          ProductName: "Anaya Necklace & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Elegant Necklace & Earrings",
+          Longdiscription: "Anaya Necklace & Earrings crafted for sophistication and beauty.",
+          Mrp: "3779",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ0102_ZoomImage__04032024021702170284517.webp",
+          addedToCart: false
+        },
+        {
+          ProductId: "20",
+          ProductName: "Reeva Necklace & Earrings",
+          ProductTittle: "Quick View",
+          Shortdiscription: "Designer Necklace & Earrings",
+          Longdiscription: "Reeva Necklace & Earrings with contemporary design for festive occasions.",
+          Mrp: "2799",
+          image: "https://media.modicare.com/ProductCategory/thumb/MJ0103_ZoomImage__040320240230281155124374.webp",
+          addedToCart: false
+        }
+         ]
+        },
+        {
           categoryId: "4",
           ProductList: [
         {
@@ -1133,8 +1643,8 @@ initialState:{
             addedToCart: false
           }
             ]
-          },
-          {
+        },
+        {
             categoryId: "9",
             ProductList: [
           {
@@ -1339,8 +1849,8 @@ initialState:{
             addedToCart: false
           }
             ]
-          },
-          {
+        },
+        {
             categoryId: "10",
             ProductList: [
            {
@@ -1524,8 +2034,8 @@ initialState:{
             image: "https://m.media-amazon.com/images/I/51yIsavuWlL._SL1080_.jpg",
           }
             ]
-          },
-          {
+        },
+        {
             categoryId: "11",
             ProductList: [
           {
@@ -1729,8 +2239,8 @@ initialState:{
            addedToCart:false
           }
             ]
-          },
-          {
+        },
+        {
             categoryId: "12",
              ProductList: [
           {
@@ -1934,8 +2444,8 @@ initialState:{
             addedToCart: false,
           }
             ]
-          },
-          {
+        },
+        {
             categoryId: "13",
              ProductList: [
           {
@@ -2139,7 +2649,7 @@ initialState:{
             addedToCart: false
           }
             ]
-          }
+        }
     ],
     cartByCategory:{}
 },

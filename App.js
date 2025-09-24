@@ -14,8 +14,9 @@ import { store, persistor } from "./src/Redux/Store";
 import Login from './src/screens/Login'
 import { useEffect} from 'react';
 import axios from 'axios';
-import { RemoveUser, setafterLoginUser, setIsAuthenticate, Setuser } from './src/Redux/loginSlice';
+import { RemoveUser, setafterLoginUser, setIsAuthenticate, setProductNeed, setStartTimer, setTimeDuration, Setuser } from './src/Redux/loginSlice';
 import SplashScreen from './src/screens/SplashScreen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 function MainTabs() {
   const Tab = createBottomTabNavigator();
   const getTabBarIcon = (routeName, focused, color, size) => {
@@ -68,7 +69,13 @@ function RootNavigation() {
       if (response.data.statusCode === 1) {
         console.log('response on rootlayout', response.data)
          dispatch(setIsAuthenticate(true))
-         dispatch(Setuser(response.data))
+        //  dispatch(Setuser(response.data))
+         const startTimer = response.data.userDetails?.timerStart
+         const timeDuration = response.data.userDetails?.timerDuration
+         const productNeed = response.data.userDetails?.productNeed
+        dispatch(setStartTimer(startTimer))
+        dispatch(setTimeDuration(timeDuration))
+        dispatch(setProductNeed(productNeed))
       } else {
          dispatch(setIsAuthenticate(false))
          dispatch(RemoveUser())
@@ -82,6 +89,7 @@ function RootNavigation() {
     checkTokenValidation();
   }, [])
   return (
+    <GestureHandlerRootView>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
@@ -99,6 +107,7 @@ function RootNavigation() {
 )}
       </Stack.Navigator>
     </NavigationContainer>
+     </GestureHandlerRootView>
   )
 }
 export default function App() {
