@@ -4,11 +4,13 @@ import { TouchableOpacity } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Image } from 'react-native'
 import { useDispatch, useSelector } from "react-redux";
-import { selectProduct} from "../Redux/Datasplice";
+import { selectProduct } from "../Redux/Datasplice";
 import { StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import Indicator from '../components/Indicator'
-
+import React, { useState, useRef } from 'react';
+import { Platform } from 'react-native';
+import { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -30,17 +32,17 @@ const ProductDetails = () => {
         </View>
         {addcart === true ? <Text style={{ textAlign: "center" }}>Added to cart</Text> : null}
         </View> */}
-         <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+      <View style={{ backgroundColor: "orange", flexDirection: "row", paddingTop: 50, justifyContent: "space-between", paddingHorizontal: 10, paddingBottom: 10 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={{ fontSize: 14, fontWeight: "500"}}>⬅ Back</Text>
+          <Text style={{ fontSize: 14, fontWeight: "500" }}>⬅ Back</Text>
         </TouchableOpacity>
-          <Text style={{fontSize:14,fontWeight:"500"}}>ProductDetails</Text>
-          <Indicator/>
-          </View>
-           <View>
-              {addcart === true ? <Text style={{ textAlign: "center" }}>Added to cart</Text> : null}
-             </View> 
-      <View style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginVertical: 10,marginHorizontal:10, }}>
+        <Text style={{ fontSize: 14, fontWeight: "500" }}>ProductDetails</Text>
+        <Indicator />
+      </View>
+      <View>
+        {addcart === true ? <Text style={{ textAlign: "center" }}>Added to cart</Text> : null}
+      </View>
+      <View style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginVertical: 10, marginHorizontal: 10, }}>
         <Image source={{ uri: product.image }} resizeMode='contain' style={{ height: 300, width: "90%" }} />
         <View >
           <Text style={styles.name}>{product.ProductName}</Text>
@@ -50,19 +52,26 @@ const ProductDetails = () => {
           <Text style={styles.price}>₹{product.Mrp}</Text>
         </View>
       </View>
-      <TouchableOpacity disabled={cartcategory[id]?.includes(product.ProductId)}
-        style={{ backgroundColor: "grey", paddingHorizontal: 10, paddingVertical: 8, borderRadius: 8, marginHorizontal: 10 }}
-        onPress={() => {
-          dispatch(selectProduct({ categoryId: id, productId: product.ProductId }))
-          setAddcart(true)
-          setTimeout(() => {
-            setAddcart(false)
-          }, 1000)
-        }} >
-        {(cartcategory[id]?.includes(product.ProductId)) ?
-          <Text style={{ textAlign: "right" }}>Added To Cart</Text> : <Text style={{ textAlign: "right" }}>Add To Cart</Text>
-        }
-      </TouchableOpacity>
+
+      <View style={{
+        position: "absolute",
+        left: 10,
+        right: 10,
+        bottom: 18,
+      }}>
+        <TouchableOpacity disabled={cartcategory[id]?.includes(product.ProductId)}
+          style={{ backgroundColor: Colors.Appcolor, paddingVertical: 8, borderRadius: 8, }}
+          onPress={() => {
+            dispatch(selectProduct({ categoryId: id, productId: product.ProductId }))
+            setAddcart(true)
+            setTimeout(() => {
+              setAddcart(false)
+            }, 1000)
+          }} >
+          <Text style={{ textAlign: "center", color: "white", fontSize: 14, fontWeight: "500" }}>
+            {(cartcategory[id]?.includes(product.ProductId)) ? "Added To Cart" : "Add To Cart"}</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }
@@ -76,6 +85,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 14,
     color: 'green',
-    textAlign:"right"
+    textAlign: "right"
   }
 })

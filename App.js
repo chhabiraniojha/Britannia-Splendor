@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View ,Text} from 'react-native';
 import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
 import Bill from './src/screens/Bill';
@@ -18,6 +18,8 @@ import { RemoveUser, setafterLoginUser, setIsAuthenticate, setProductNeed, setSt
 import SplashScreen from './src/screens/SplashScreen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 function MainTabs() {
+   const cartcategory = useSelector((state) => state.Productlist?.cartByCategory);
+    const selectedCount = Object.values(cartcategory).flat().length // flatten all arrays;
   const Tab = createBottomTabNavigator();
   const getTabBarIcon = (routeName, focused, color, size) => {
     let iconName;
@@ -28,12 +30,41 @@ function MainTabs() {
     } else if (routeName === "Bill") {
       iconName = focused ? "receipt-outline" : "receipt-outline";
     }
+
+      // ✅ Custom Cart icon with badge
+      if (routeName === "Cart") {
+        return (
+          <View style={{ position: "relative" }}>
+            <Icon name={iconName} size={size} color={color} />
+            {selectedCount > 0 && (
+              <View
+                style={{
+                  position: "absolute",
+                  top: -6,
+                  right: -10,
+                  minWidth: 18,
+                  height: 18,
+                  borderRadius: 9,
+                  backgroundColor: "red",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingHorizontal: selectedCount > 99 ? 4 : 0, // extra space for 3+ digits
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 10, fontWeight: "bold" }}>
+                  {selectedCount > 99 ? "99+" : selectedCount}
+                </Text>
+              </View>
+            )}
+          </View>
+        );
+      }
     return <Icon name={iconName} size={size} color={color} />
   }
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => getTabBarIcon(route.name, focused, color, size),
+        tabBarIcon: ({ focused, color, size }) => getTabBarIcon(route.name, focused, color, size,selectedCount),
         tabBarActiveTintColor: "#007bff",
         tabBarInactiveTintColor: "grey",
         tabBarStyle: {
@@ -89,7 +120,7 @@ function RootNavigation() {
     checkTokenValidation();
   }, [])
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{flex:1}}>
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
@@ -114,7 +145,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <GestureHandlerRootView style={{flex:1}}>
         <RootNavigation />
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );
