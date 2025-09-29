@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, } from 'react-native'
-import React, { useState } from 'react'
+import { Dimensions, StyleSheet, Text, View, } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Image } from 'react-native'
@@ -8,16 +8,32 @@ import { selectProduct } from "../Redux/Datasplice";
 import { StatusBar } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import Indicator from '../components/Indicator'
-import React, { useState, useRef } from 'react';
-import { Platform } from 'react-native';
 import { BannerAd, BannerAdSize, TestIds, useForeground } from 'react-native-google-mobile-ads';
+import { Colors } from './Colors'
+import { ActivityIndicator } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+const adUnitId = __DEV__ ? TestIds.ADAPTIVE_BANNER: 'ca-app-pub-1610234648570470/1143352083';
 const ProductDetails = () => {
+  const insets = useSafeAreaInsets();
+  const [Fetchingdata, setFetchingdata] = useState(true)
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const route = useRoute();
   const [addcart, setAddcart] = useState(false)
   const { product, id } = route.params;
   const cartcategory = useSelector((state) => state.Productlist.cartByCategory);
+  const [reloadKey, setReloadKey] = useState(0);
+  const { width } = Dimensions.get("window");
+  // when app comes to foreground, remount banner
+  useForeground(() => {
+    setReloadKey((prev) => prev + 1);
+  });
+  useEffect(() => {
+    const Timer = setTimeout(() => {
+      setFetchingdata(false)
+    }, 2000);
+    return () => clearTimeout(Timer); // cleanup on unmount
+  }, [])
   return (
     <SafeAreaView style={{ flex: 1, height: "100%" }}>
       <StatusBar
@@ -26,17 +42,11 @@ const ProductDetails = () => {
         translucent={false}
         hidden={false}
       />
-      {/* <View style={{ backgroundColor: "orange", paddingTop: 25, paddingBottom: 5, paddingHorizontal: 10, display: "flex", flexDirection: "row", alignItems: "center", gap: 15 }}>
-        <Text style={{ fontSize: 14, fontWeight: "500", marginTop: 20 }}>Britannia ProductDetails</Text>
-        <View>
-        </View>
-        {addcart === true ? <Text style={{ textAlign: "center" }}>Added to cart</Text> : null}
-        </View> */}
-      <View style={{ backgroundColor: "orange", flexDirection: "row", paddingTop: 50, justifyContent: "space-between", paddingHorizontal: 10, paddingBottom: 10 }}>
+      <View style={{ backgroundColor: "orange", flexDirection: "row", paddingTop: 40, justifyContent: "space-between", paddingHorizontal: 10, paddingBottom: 10 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={{ fontSize: 14, fontWeight: "500" }}>⬅ Back</Text>
+          <Text style={{ fontSize: 14, fontWeight: "600" ,color:"white"}}>⬅ Back</Text>
         </TouchableOpacity>
-        <Text style={{ fontSize: 14, fontWeight: "500" }}>ProductDetails</Text>
+        <Text style={{ fontSize: 14, fontWeight: "600",color:"white" }}>ProductDetails</Text>
         <Indicator />
       </View>
       <View>
@@ -52,12 +62,24 @@ const ProductDetails = () => {
           <Text style={styles.price}>₹{product.Mrp}</Text>
         </View>
       </View>
-
+      <View style={{ width: width * 0.9, height: 400, alignItems: "center",margin:"auto"}}>
+        <BannerAd
+          key={reloadKey} // force remount when key changes
+          unitId={adUnitId}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+          requestOptions={{
+            requestNonPersonalizedAdsOnly: true,
+          }}
+          onAdFailedToLoad={(error) => {
+            console.log("Banner failed to load: ", error);
+          }}
+        />
+      </View>
       <View style={{
         position: "absolute",
         left: 10,
         right: 10,
-        bottom: 18,
+        bottom: 10+insets.bottom,
       }}>
         <TouchableOpacity disabled={cartcategory[id]?.includes(product.ProductId)}
           style={{ backgroundColor: Colors.Appcolor, paddingVertical: 8, borderRadius: 8, }}
@@ -69,7 +91,14 @@ const ProductDetails = () => {
             }, 1000)
           }} >
           <Text style={{ textAlign: "center", color: "white", fontSize: 14, fontWeight: "500" }}>
-            {(cartcategory[id]?.includes(product.ProductId)) ? "Added To Cart" : "Add To Cart"}</Text>
+            {Fetchingdata ? (
+              <View style={styles.loaderContainer}>
+              <Text style={styles.text}>Fetching data...</Text>
+                 <ActivityIndicator size="small" color="white" />
+              </View>
+            ) : (
+              (cartcategory[id]?.includes(product.ProductId)) ? "Added To Cart" : "Add To Cart")}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -85,6 +114,14 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 14,
     color: 'green',
-    textAlign: "right"
-  }
+  },
+  loaderContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap:5
+  },
+  text: {
+    textAlign: "center", color: "white", fontSize: 14, fontWeight: "500"
+  },
 })

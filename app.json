@@ -1,22 +1,22 @@
 {
   "expo": {
-    "name": "BritanniaSplendor",
-    "slug": "BritanniaSplendor",
+    "name": "BillGen",
+    "slug": "biilgen",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "plugins": [
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-1610234648570470~5461500573"
+          "androidAppId": "ca-app-pub-1610234648570470~7441167127"
         }
       ]
     ],
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/SplashIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -29,15 +29,16 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.businesspurpose.BritanniaSplendor"
+      "package": "com.businesspurpose.billgen"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "aa59f926-b46e-48d4-bcfd-f57df80b1da4"
+        "projectId": "49aa74e7-49fd-428a-bbeb-0c1ad041eea5"
       }
-    }
+    },
+    "owner": "businesspurpose"
   }
 }

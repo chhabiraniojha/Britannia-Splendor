@@ -9,7 +9,7 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist
 const persistConfig = {
   key: "Root",
   storage: AsyncStorage,
-  blacklist:["cartByCategory"]
+  blacklist:["cartByCategory","Productlist"]
 };
 const rootReducer = combineReducers({
   Productlist: cartReducer,

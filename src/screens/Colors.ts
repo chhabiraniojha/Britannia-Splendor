@@ -26,5 +26,6 @@ export const Colors = {
   black:"#121212",
   white:"white",
   Appcolor:"#217306",
-  naturalwhite:"#F0F0F0"
+  naturalwhite:"#F0F0F0",
+  NewAppColor:"orange"
 };

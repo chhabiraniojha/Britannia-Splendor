@@ -4,10 +4,16 @@ import { FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import Indicator from '../components/Indicator'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { useInterstitialAd } from "../components/UseInterstitialAd";
 const Home = () => {
     const navigation = useNavigation();
     const ScreenWidth = Dimensions.get("window").width
     const homecategory = useSelector(state=>state.Homecat)
+    const DrawerOpen = ()=>{
+       navigation.openDrawer();
+    }
+   const { showAd } = useInterstitialAd();
     const cattegoriesdata = [
       {
         id:"1",
@@ -75,11 +81,21 @@ const Home = () => {
         image:"https://th.bing.com/th/id/OIP.7Js7uxeECpZJ37gI_kEV9QHaHQ?w=202&h=198&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3"
       },
     ]
+    const GoToProductList = async({item}) => {
+  await showAd()
+    // Navigate ONLY after ad closes
+    navigation.navigate("ProductList", { id: item.id });
+};
   return (
     <SafeAreaView style={styles.container}>
     <StatusBar backgroundColor="orange" hidden={false} translucent={false} barStyle='light-content'/>
-    <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
-    <Text style={{fontSize:14,fontWeight:"500"}}>Britannia</Text>
+    <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:40,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+  <View style={{flexDirection:"row",alignItems:"center",gap:10}}>
+    <TouchableOpacity onPress={()=>DrawerOpen()}>
+   <Icon name="menu-outline" size={17} color="white" />
+    </TouchableOpacity>
+    <Text style={{fontSize:14,fontWeight:"500",color:"white"}}>BillGen</Text>
+  </View>
     <Indicator/>
     </View>
    <FlatList
@@ -95,7 +111,8 @@ const Home = () => {
   renderItem={({ item }) => {
     return (
       <View style={[styles.itemContainer,{width:ScreenWidth/3}]}>
-        <TouchableOpacity onPress={()=>navigation.navigate('ProductList',{id:item.id})}>
+        <TouchableOpacity 
+        onPress={()=>GoToProductList({item})}>
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: item.image }}

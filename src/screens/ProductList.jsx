@@ -3,14 +3,22 @@ import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import Indicator from '../components/Indicator';
+import { useInterstitialAd } from '../components/UseInterstitialAd';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const ProductList = () => {
+  const insets = useSafeAreaInsets();
     const navigation = useNavigation();
+     const { showAd ,loaded} = useInterstitialAd();
     const categories = useSelector(state => state.Productlist.data); // from store
       const cartcategory = useSelector((state)=>state.Productlist.cartByCategory);
     const ProductData = categories
   const route = useRoute();
   const  {id} = route.params
   const selectedCategory = ProductData.find(cat=>cat.categoryId === id);
+     const GoToProductDetails =async({item})=>{
+        await showAd()
+           navigation.navigate('ProductDetails',{product:item,id:id})
+      }
   return (
       <SafeAreaView style={{ flex: 1,height:"100%"}}>
           <StatusBar
@@ -19,11 +27,11 @@ const ProductList = () => {
                   translucent={false}
                   hidden={false}
                 />
-               <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:50,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
+               <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:40,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
               <TouchableOpacity onPress={()=>navigation.goBack()}>
-            <Text style={{fontSize:14,fontWeight:"500"}}>⬅ Back</Text>
+            <Text style={{fontSize:14,fontWeight:"600",color:"white"}}>⬅ Back</Text>
               </TouchableOpacity>
-    <Text style={{fontSize:14,fontWeight:"500"}}>ProductList</Text>
+    <Text style={{fontSize:14,fontWeight:"600",color:"white"}}>ProductList</Text>
     <Indicator/>
     </View>
       {/* <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Products in Category {id}</Text> */}
@@ -33,7 +41,7 @@ const ProductList = () => {
           data={selectedCategory.ProductList}
           keyExtractor={item => item.ProductId}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={()=>navigation.navigate('ProductDetails',{product:item,id:id})} style={styles.item}>
+            <TouchableOpacity onPress={()=>GoToProductDetails({item})} style={styles.item}>
             <View style={styles.imageContainer}>
             <Image source={{uri:item.image}} resizeMode='contain' style={styles.image} />
              </View>
@@ -49,6 +57,9 @@ const ProductList = () => {
          }
             </TouchableOpacity>
           )}
+          contentContainerStyle={{
+                    paddingBottom: insets.bottom, // ✅ safe area + thoda extra space
+                  }}
         />
       ) : (
         <Text>No products found for this category.</Text>

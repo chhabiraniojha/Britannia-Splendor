@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",  // vertical center
     alignItems: "center",      // horizontal center
-    backgroundColor: "#fff",   // optional background
+    // backgroundColor: "#fff",   // optional background
   },
   text: {
     marginTop: 10,

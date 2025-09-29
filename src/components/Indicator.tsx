@@ -38,31 +38,50 @@ console.log("Redux state", timerStart, timerDuration)
 
   
     // Convert seconds → mm:ss
+// const formatTime = (seconds: number) => {
+//   // Minute check
+//   const m = Math.floor(seconds / 60);
+//   //remaining seconds
+//   const s = seconds % 60;
+//   //adds leading zero if needed. ex.65 seconds into "1:05"
+//   return `${String(m).padStart(2, "0")}`;
+// };
+// Convert seconds → custom minute display
 const formatTime = (seconds: number) => {
-  // Minute check
+  if (seconds <= 0) return "00"; // timer khatam
+
+  // Normal minutes calculation
   const m = Math.floor(seconds / 60);
-  //remaining seconds
-  const s = seconds % 60;
-  //adds leading zero if needed. ex.65 seconds into "1:05"
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+
+  // Agar abhi last minute chal rahi hai (0:59 ... 0:01) tab bhi 1 dikhao
+  if (m === 0 && seconds > 0) {
+    return "01";
+  }
+
+  return String(m).padStart(2, "0");
 };
+
   return (
     <View style={styles.container}>
-      <Text 
-      style={styles.textsize}
-      >UserId</Text>
-      <View style={styles.columnwise}>
+      <Text style={styles.textsize} >User Id -</Text>
+      {/* <View style={styles.columnwise}> */}
+      <View style={{display:"flex",flexDirection:"row",paddingHorizontal:4}}>
+        <View style={{paddingHorizontal:4,backgroundColor:"green",borderTopLeftRadius:8,borderBottomLeftRadius:8}}>
         <Text style={styles.textsize}>{formatTime(timeLeft)}</Text>
-         <View style={[styles.TimerIndicator,{backgroundColor:"green"}]}></View>
-      </View>
+        </View>
+         {/* <View style={[styles.TimerIndicator,{backgroundColor:"green"}]}></View> */}
+      {/* </View> */}
       {/* <View style={styles.columnwise}>
         <Text style={styles.textsize}>Fullfledge</Text>
-         <View style={[styles.fullfledgeIndicator,{backgroundColor:"yellow"}]}></View>
-      </View> */}
-      <View style={styles.columnwise}>
+        <View style={[styles.fullfledgeIndicator,{backgroundColor:"yellow"}]}></View>
+        </View> */}
+      {/* <View style={styles.columnwise}> */}
+      <View style={{paddingHorizontal:4,backgroundColor:"red",borderTopRightRadius:8,borderBottomRightRadius:8}}>
         <Text style={styles.textsize}>{productNedd}</Text>
-         <View style={[styles.PremiumIndicator,{backgroundColor:"red"}]}></View>
       </View>
+         {/* <View style={[styles.PremiumIndicator,{backgroundColor:"red"}]}></View> */}
+      {/* </View> */}
+        </View>
     </View>
   )
 }
@@ -74,11 +93,12 @@ const styles = StyleSheet.create({
         display:"flex",
         justifyContent:"center",
         flexDirection:"row",
-        gap:15
+        // gap:15,
     },
     textsize:{
     fontSize:14,
-    fontWeight:"600"
+    fontWeight:"600",
+    color:"white"
     },
     columnwise:{
       alignItems:"center"
