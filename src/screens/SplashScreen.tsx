@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import React from 'react'
+import { Image } from 'react-native'
 
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="orange" />
-      <Text style={styles.text}>Loading...</Text>
+      <Image  source={require("../../assets/SplashIcon.png")} resizeMode='contain' style={{height:"40%",width:"40%",margin:"auto"}}/>
     </View>
   )
 }

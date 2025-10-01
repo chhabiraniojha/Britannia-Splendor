@@ -81,7 +81,8 @@ const ProductDetails = () => {
         right: 10,
         bottom: 10+insets.bottom,
       }}>
-        <TouchableOpacity disabled={cartcategory[id]?.includes(product.ProductId)}
+        <TouchableOpacity 
+        disabled={Fetchingdata || cartcategory[id]?.includes(product.ProductId)}
           style={{ backgroundColor: Colors.Appcolor, paddingVertical: 8, borderRadius: 8, }}
           onPress={() => {
             dispatch(selectProduct({ categoryId: id, productId: product.ProductId }))

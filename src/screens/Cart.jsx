@@ -260,6 +260,8 @@ const Cart = () => {
         <Text style={{ fontSize: 14, fontWeight: "600", color: "white" }}>Cart</Text>
         <Indicator />
       </View>
+      {selectedCount > 0 &&
+      <Text style={styles.Carttext}>You have someting in the Cart {selectedCount}</Text>}
       {selectedCount > 0 ? (
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -398,6 +400,19 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     overflow: "hidden"
+  },
+  Carttext:{
+    textAlign:"center",
+    fontSize:12,
+    fontWeight:"600",
+    color:"white",
+    backgroundColor:"orange",
+    paddingHorizontal:3,
+    paddingVertical:3,
+    borderBottomLeftRadius:8,
+    borderBottomRightRadius:8,
+    width:"55%",
+    margin:"auto"
   },
   name: {
     fontSize: 16

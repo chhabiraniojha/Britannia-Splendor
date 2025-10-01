@@ -9,7 +9,6 @@ const initialState = {
   password: '',
   rememberMe: false,
   IsAuthenticate:null,
-  // userTimer:null,
   startTimer:null,
   timeDuration:null,
   productNeed:null

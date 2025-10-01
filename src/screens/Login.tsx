@@ -8,7 +8,7 @@ import { ThemeContext } from './ThemeContext';
 import { Colors } from './Colors';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { clearCredentials, login, setafterLoginUser, setCredentials, setIsAuthenticate } from '../Redux/loginSlice';
+import { clearCredentials, login, setCredentials, setIsAuthenticate } from '../Redux/loginSlice';
 // import { setwalletAmount } from '@/components/Redux/contactSlice';
 import { scale } from "react-native-size-matters";
 import { HelloWave } from './HelloWave';
