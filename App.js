@@ -8,7 +8,6 @@ import {
   Modal,
   StatusBar,
   Image,
-  SafeAreaView,
   TouchableOpacity,
   Linking,
 } from "react-native";
@@ -16,7 +15,7 @@ import Home from "./src/screens/Home";
 import Cart from "./src/screens/Cart";
 import Bill from "./src/screens/Bill";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import ProductList from "./src/screens/ProductList";
 import ProductDetails from "./src/screens/ProductDetails";
@@ -34,7 +33,6 @@ import {
   setProductNeed,
   setStartTimer,
   setTimeDuration,
-  Setuser,
 } from "./src/Redux/loginSlice";
 import SplashScreen from "./src/screens/SplashScreen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -46,29 +44,68 @@ import {
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
 import { MaterialIcons } from "@expo/vector-icons";
-// import * as Network from "expo-network";
 import { ImageBackground } from "react-native";
 import { Colors } from "./src/screens/Colors";
 import { scale } from "react-native-size-matters";
 import Indicator from "./src/components/Indicator";
+import MyWebView from "./src/screens/WebView";
 export const scales = (size) => Math.round(scale(size));
+import * as Network from 'expo-network';
 function HomeDrawer() {
+  const navigation = useNavigation();
   const Drawer = createDrawerNavigator();
-  const termscondition = () => {
-    const url = "https://digidivine.online/mypay/terms-conditions";
-    Linking.openURL(url);
+  const termscondition = async() => {
+    try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/geturl`,{
+        params:{name:"termsandconditions"}
+      });
+      console.log("data",response.data)
+      if(response.data.statusCode === 1){
+        const url = response.data.urlData.url;
+        navigation.navigate('MyWebView',{url:url})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
-  const privacypolicy = () => {
-    const url = "https://digidivine.online/mypay/privacy-policy";
-    Linking.openURL(url);
+  const privacypolicy = async() => {
+      try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/geturl`,{
+        params:{name:"privacypolicy"}
+      });
+      if(response.data.statusCode === 1){
+        const url = response.data.urlData.url;
+        navigation.navigate('MyWebView',{url:url})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
-  const aboutus = () => {
-    const url = "https://digidivine.online/mypay/about-us";
-    Linking.openURL(url);
+  const aboutus = async() => {
+     try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/geturl`,{
+        params:{name:"aboutus"}
+      });
+      if(response.data.statusCode === 1){
+        const url = response.data.urlData.url;
+        navigation.navigate('MyWebView',{url:url})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
-  const contactsus = () => {
-    const url = "https://digidivine.online/mypay/contact-us";
-    Linking.openURL(url);
+  const contactsus = async() => {
+     try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_BASE_URL}/geturl`,{
+        params:{name:"contactus"}
+      });
+      if(response.data.statusCode === 1){
+        const url = response.data.urlData.url;
+        navigation.navigate('MyWebView',{url:url})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
   return (
     <Drawer.Navigator
@@ -81,189 +118,227 @@ function HomeDrawer() {
             contentContainerStyle={{
               padding: 10,
               backgroundColor: Colors.NewAppColor,
-              height:"100%"
+              height: "100%",
             }}
           >
-            <View style={{backgroundColor:"white",padding:5,borderRadius:8,marginBottom:5}}>
             <View
-              style={[styles.containerPr, { backgroundColor: Colors.NewAppColor }]}
+              style={{
+                backgroundColor: "white",
+                padding: 5,
+                borderRadius: 8,
+                marginBottom: 5,
+              }}
             >
-              <View>
-                <TouchableOpacity
-                  // onPress={() => navigation.navigate("/Sidebarscreen")}
-                  activeOpacity={0.8}
-                  style={[
-                    styles.flexCon2,
-                    { marginTop: scales(2), paddingTop: scales(2) },
-                  ]}
-                >
-                  <View style={styles.img2}>
-                    <View style={styles.imgContainer}>
-                      <MaterialIcons name="person" size={24} color="black" />
-                    </View>
-                    <View>
-                      <Text style={[styles.xltext, { color: "white" }]}>
-                        Profile
-                      </Text>
-                    </View>
-                    <View>
-                      <Indicator/>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            </View>
-             <View style={[styles.containerPr,{backgroundColor:"#fff"}]}>
-                  <Text style={[styles.heading,{color:"black"}]}>Preference</Text>
+              <View
+                style={[
+                  styles.containerPr,
+                  { backgroundColor: Colors.NewAppColor },
+                ]}
+              >
                 <View>
-                     <TouchableOpacity
-                  //  onPress={()=>router.push('/Languagess')}
-                   onPress={()=>router.push('/successaproved')}
-                   style={[styles.flexCon,{borderBottomColor:"gray"}]}>
-                  <View
-              style={[styles.containerPr, { backgroundColor: Colors.NewAppColor }]}
-            >
-              <View>
-                <TouchableOpacity
-                  // onPress={() => navigation.navigate("/Sidebarscreen")}
-                  activeOpacity={0.8}
-                  style={[
-                    styles.flexCon2,
-                    { marginTop: scales(2), paddingTop: scales(2) },
-                  ]}
-                >
-                  <View style={styles.img2}>
-                    <View style={styles.imgContainer}>
-                      <MaterialIcons name="policy" size={24} color="black" />
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={[
+                      styles.flexCon2,
+                      { marginTop: scales(2), paddingTop: scales(2) },
+                    ]}
+                  >
+                    <View style={styles.img2}>
+                      <View style={styles.imgContainer}>
+                        <MaterialIcons name="person" size={24} color="black" />
+                      </View>
+                      <View>
+                        <Text style={[styles.xltext, { color: "white" }]}>
+                          Profile
+                        </Text>
+                      </View>
+                      <View>
+                        <Indicator />
+                      </View>
                     </View>
-                    <View>
-                      <Text style={[styles.xltext, { color: "white" }]}>
-                        Privacy Policy
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={30}
-                      color="white"
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
                   </TouchableOpacity>
-                <TouchableOpacity
-                   style={[styles.flexCon,{borderBottomColor:"gray"}]}>
-                  <View
-              style={[styles.containerPr, { backgroundColor: Colors.NewAppColor }]}
-            >
-              <View>
-                <TouchableOpacity
-                  // onPress={() => navigation.navigate("/Sidebarscreen")}
-                  activeOpacity={0.8}
-                  style={[
-                    styles.flexCon2,
-                    { marginTop: scales(2), paddingTop: scales(2) },
-                  ]}
-                >
-                  <View style={styles.img2}>
-                    <View style={styles.imgContainer}>
-                      <MaterialIcons name="description" size={24} color="black" />
-                    </View>
-                    <View>
-                      <Text style={[styles.xltext, { color: "white" }]}>
-                        Terms & Conditions
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={30}
-                      color="white"
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-                  </TouchableOpacity> 
-                     <TouchableOpacity
-                  //  onPress={()=>router.push('/Languagess')}
-                   style={[styles.flexCon,{borderBottomColor:"gray"}]}>
-                   <View
-              style={[styles.containerPr, { backgroundColor: Colors.NewAppColor}]}
-            >
-              <View>
-                <TouchableOpacity
-                  // onPress={() => navigation.navigate("/Sidebarscreen")}
-                  activeOpacity={0.8}
-                  style={[
-                    styles.flexCon2,
-                    { marginTop: scales(2), paddingTop: scales(2) },
-                  ]}
-                >
-                  <View style={styles.img2}>
-                    <View style={styles.imgContainer}>
-                      <MaterialIcons name="contact-support" size={24} color="black" />
-                    </View>
-                    <View>
-                      <Text style={[styles.xltext, { color: "white" }]}>
-                        Contact Us
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={30}
-                      color="white"
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-                 </TouchableOpacity>  
-                     <TouchableOpacity
-                  //  onPress={()=>router.push('/Languagess')}
-                   onPress={()=>router.push('/successaproved')}
-                   style={[styles.flexCon,{borderBottomColor:"gray"}]}>
-                   <View
-              style={[styles.containerPr, { backgroundColor: Colors.NewAppColor}]}
-            >
-              <View>
-                <TouchableOpacity
-                  // onPress={() => navigation.navigate("/Sidebarscreen")}
-                  activeOpacity={0.8}
-                  style={[
-                    styles.flexCon2,
-                    { marginTop: scales(2), paddingTop: scales(2) },
-                  ]}
-                >
-                  <View style={styles.img2}>
-                    <View style={styles.imgContainer}>
-                      <MaterialIcons name="info" size={24} color="black" />
-                    </View>
-                    <View>
-                      <Text style={[styles.xltext, { color: "white" }]}>
-                        About Us
-                      </Text>
-                    </View>
-                  </View>
-                  <View>
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={30}
-                      color="white"
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-                 </TouchableOpacity>  
                 </View>
               </View>
+            </View>
+            <View style={[styles.containerPr, { backgroundColor: "#fff" }]}>
+              <Text style={[styles.heading, { color: "black" }]}>
+                Preference
+              </Text>
+              <View>
+                <TouchableOpacity
+                  style={[styles.flexCon, { borderBottomColor: "gray" }]}
+                >
+                  <View
+                    style={[
+                      styles.containerPr,
+                      { backgroundColor: Colors.NewAppColor },
+                    ]}
+                  >
+                    <View>
+                      <TouchableOpacity
+                  onPress={() => privacypolicy()}
+                        activeOpacity={0.8}
+                        style={[
+                          styles.flexCon2,
+                          { marginTop: scales(2), paddingTop: scales(2) },
+                        ]}
+                      >
+                        <View style={styles.img2}>
+                          <View style={styles.imgContainer}>
+                            <MaterialIcons
+                              name="policy"
+                              size={24}
+                              color="black"
+                            />
+                          </View>
+                          <View>
+                            <Text style={[styles.xltext, { color: "white" }]}>
+                              Privacy Policy
+                            </Text>
+                          </View>
+                        </View>
+                        <View>
+                          <MaterialIcons
+                            name="chevron-right"
+                            size={30}
+                            color="white"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.flexCon, { borderBottomColor: "gray" }]}
+                >
+                  <View
+                    style={[
+                      styles.containerPr,
+                      { backgroundColor: Colors.NewAppColor },
+                    ]}
+                  >
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => termscondition()}
+                        activeOpacity={0.8}
+                        style={[
+                          styles.flexCon2,
+                          { marginTop: scales(2), paddingTop: scales(2) },
+                        ]}
+                      >
+                        <View style={styles.img2}>
+                          <View style={styles.imgContainer}>
+                            <MaterialIcons
+                              name="description"
+                              size={24}
+                              color="black"
+                            />
+                          </View>
+                          <View>
+                            <Text style={[styles.xltext, { color: "white" }]}>
+                              Terms & Conditions
+                            </Text>
+                          </View>
+                        </View>
+                        <View>
+                          <MaterialIcons
+                            name="chevron-right"
+                            size={30}
+                            color="white"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.flexCon, { borderBottomColor: "gray" }]}
+                >
+                  <View
+                    style={[
+                      styles.containerPr,
+                      { backgroundColor: Colors.NewAppColor },
+                    ]}
+                  >
+                    <View>
+                      <TouchableOpacity
+                  onPress={() => contactsus()}
+                        activeOpacity={0.8}
+                        style={[
+                          styles.flexCon2,
+                          { marginTop: scales(2), paddingTop: scales(2) },
+                        ]}
+                      >
+                        <View style={styles.img2}>
+                          <View style={styles.imgContainer}>
+                            <MaterialIcons
+                              name="contact-support"
+                              size={24}
+                              color="black"
+                            />
+                          </View>
+                          <View>
+                            <Text style={[styles.xltext, { color: "white" }]}>
+                              Contact Us
+                            </Text>
+                          </View>
+                        </View>
+                        <View>
+                          <MaterialIcons
+                            name="chevron-right"
+                            size={30}
+                            color="white"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.flexCon, { borderBottomColor: "gray" }]}
+                >
+                  <View
+                    style={[
+                      styles.containerPr,
+                      { backgroundColor: Colors.NewAppColor },
+                    ]}
+                  >
+                    <View>
+                      <TouchableOpacity
+                      onPress={() => aboutus()}
+                        activeOpacity={0.8}
+                        style={[
+                          styles.flexCon2,
+                          { marginTop: scales(2), paddingTop: scales(2) },
+                        ]}
+                      >
+                        <View style={styles.img2}>
+                          <View style={styles.imgContainer}>
+                            <MaterialIcons
+                              name="info"
+                              size={24}
+                              color="black"
+                            />
+                          </View>
+                          <View>
+                            <Text style={[styles.xltext, { color: "white" }]}>
+                              About Us
+                            </Text>
+                          </View>
+                        </View>
+                        <View>
+                          <MaterialIcons
+                            name="chevron-right"
+                            size={30}
+                            color="white"
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
           </DrawerContentScrollView>
         );
       }}
@@ -371,7 +446,7 @@ function RootNavigation() {
   const IsAuthenticate = useSelector((state) => state.login?.IsAuthenticate);
   const [isConnected, setIsConnected] = useState(true); // Initial connection state
   const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const checkTokenValidation = async () => {
     console.log("Token", token);
@@ -388,7 +463,6 @@ function RootNavigation() {
       if (response.data.statusCode === 1) {
         console.log("response on rootlayout", response.data);
         dispatch(setIsAuthenticate(true));
-        //  dispatch(Setuser(response.data))
         const startTimer = response.data.userDetails?.timerStart;
         const timeDuration = response.data.userDetails?.timerDuration;
         const productNeed = response.data.userDetails?.productNeed;
@@ -402,15 +476,15 @@ function RootNavigation() {
     } catch (error) {
       dispatch(setIsAuthenticate(false));
       dispatch(RemoveUser());
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
   const checkNetworkStatus = async () => {
     try {
-      // const networkState = await Network.getNetworkStateAsync();
-      // const connected = networkState.isConnected ?? false; // fallback for TS
-      const connected = true; // fallback for TS
+      const networkState = await Network.getNetworkStateAsync();
+      const connected = networkState.isConnected ?? false; // fallback for TS
+      // const connected = true; // fallback for TS
       setIsConnected(connected);
       setShowModal(!connected);
     } catch (err) {
@@ -444,26 +518,23 @@ function RootNavigation() {
               <Stack.Screen name="MainTabs" component={MainTabs} />
               <Stack.Screen name="ProductList" component={ProductList} />
               <Stack.Screen name="ProductDetails" component={ProductDetails} />
+              <Stack.Screen name="MyWebView" component={MyWebView} />
             </>
           ) : (
             <Stack.Screen name="Login" component={Login} />
           )}
         </Stack.Navigator>
       </NavigationContainer>
-      <Modal visible={showModal} style={styles.container}>
-        <StatusBar
-          backgroundColor="orange"
-          barStyle="light-content"
-          translucent={false}
-          hidden={false}
-        />
-        <ImageBackground
-          source={require("./assets/Noconnection.png")}
-          resizeMode="contain"
-          style={styles.img}
-        />
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
+       <Modal visible={showModal} style={styles.container}>
+           <StatusBar
+                  backgroundColor="orange"
+                  barStyle="light-content"
+                  translucent={false}
+                  hidden={false}
+                />
+                <ImageBackground source={require('./assets/Noconnection.png')} resizeMode="contain" style={styles.img}/>
+        <View style={styles.modalOverlaym}>
+          <View style={styles.modalContainerm}>
             <Image
               source={require("./assets/nosignal.png")} // Replace with your PNG
               style={styles.alertImage}
@@ -474,7 +545,7 @@ function RootNavigation() {
             </Text>
           </View>
         </View>
-      </Modal>
+      </Modal> 
     </GestureHandlerRootView>
   );
 }
@@ -501,12 +572,48 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
   },
+    modalOverlaym: {
+    flex: 1,
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom:"70%"
+  },
+  modalContainerm: {
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  alertImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+  },
+    alertText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
+    textAlign: "center",
+  },
+  alertSubText: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginTop: 10,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  img:{
+ img:{
     height:"55%",
     width:"96%"
   },
@@ -533,7 +640,7 @@ const styles = StyleSheet.create({
     elevation: scales(0.1),
     borderRadius: scales(10),
     paddingHorizontal: scales(10),
-    paddingVertical:scales(3),
+    paddingVertical: scales(3),
     width: "100%",
     justifyContent: "space-between",
     gap: scales(20),

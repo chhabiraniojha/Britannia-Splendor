@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         // gap:15,
     },
     textsize:{
-    fontSize:14,
+    fontSize:18,
     fontWeight:"600",
     color:"white"
     },

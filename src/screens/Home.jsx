@@ -6,7 +6,9 @@ import { useSelector } from 'react-redux'
 import Indicator from '../components/Indicator'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { useInterstitialAd } from "../components/UseInterstitialAd";
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 const Home = () => {
+  const insets = useSafeAreaInsets();
     const navigation = useNavigation();
     const ScreenWidth = Dimensions.get("window").width
     const homecategory = useSelector(state=>state.Homecat)
@@ -25,9 +27,9 @@ const Home = () => {
     <View style={{backgroundColor:"orange",flexDirection:"row",paddingTop:40,justifyContent:"space-between",paddingHorizontal:10,paddingBottom:10}}>
   <View style={{flexDirection:"row",alignItems:"center",gap:10}}>
     <TouchableOpacity onPress={()=>DrawerOpen()}>
-   <Icon name="menu-outline" size={17} color="white" />
+   <Icon name="menu-outline" size={30} color="white" />
     </TouchableOpacity>
-    <Text style={{fontSize:14,fontWeight:"500",color:"white"}}>BillGen</Text>
+    <Text style={{fontSize:18,fontWeight:"500",color:"white"}}>BillGen</Text>
   </View>
     <Indicator/>
     </View>

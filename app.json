@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "BillGen",
-    "slug": "biilgen",
+    "slug": "billgen",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/adaptive-icon.png",
+    "icon": "./assets/Startlogo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "plugins": [
@@ -25,20 +25,20 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Startlogo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.businesspurpose.billgen"
+      "package": "com.egmi7777.billgen"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "49aa74e7-49fd-428a-bbeb-0c1ad041eea5"
+        "projectId": "80a579e7-6b5b-48b0-9d33-cfaf7e2fd147"
       }
     },
-    "owner": "businesspurpose"
+    "owner": "egmi7777"
   }
 }

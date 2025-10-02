@@ -257,11 +257,11 @@ const Cart = () => {
         hidden={false}
       />
       <View style={{ backgroundColor: "orange", flexDirection: "row", paddingTop: 40, justifyContent: "space-between", paddingHorizontal: 10, paddingBottom: 10 }}>
-        <Text style={{ fontSize: 14, fontWeight: "600", color: "white" }}>Cart</Text>
+        <Text style={{ fontSize: 18, fontWeight: "600", color: "white" }}>Cart</Text>
         <Indicator />
       </View>
       {selectedCount > 0 &&
-      <Text style={styles.Carttext}>You have someting in the Cart {selectedCount}</Text>}
+      <Text style={styles.Carttext}>Your cart has {selectedCount} {selectedCount === 1 ? "product":"products"}</Text>}
       {selectedCount > 0 ? (
         <FlatList
           showsVerticalScrollIndicator={false}
