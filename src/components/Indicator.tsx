@@ -52,7 +52,7 @@ const formatTime = (seconds: number) => {
 
   // Normal minutes calculation
   const m = Math.floor(seconds / 60);
-
+  // const s = seconds % 60;
   // Agar abhi last minute chal rahi hai (0:59 ... 0:01) tab bhi 1 dikhao
   if (m === 0 && seconds > 0) {
     return "01";

@@ -461,7 +461,7 @@ function RootNavigation() {
         }
       );
       if (response.data.statusCode === 1) {
-        console.log("response on rootlayout", response.data);
+        console.log("response on rootlayout ApiCall", response.data);
         dispatch(setIsAuthenticate(true));
         const startTimer = response.data.userDetails?.timerStart;
         const timeDuration = response.data.userDetails?.timerDuration;

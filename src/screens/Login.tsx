@@ -1,18 +1,38 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, KeyboardAvoidingView, ActivityIndicator, StatusBar, ScrollView } from 'react-native';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
-import Svg, { Path } from 'react-native-svg';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Dimensions,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+  StatusBar,
+  ScrollView,
+} from "react-native";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
+import Svg, { Path } from "react-native-svg";
 // import { useRouter } from 'expo-router';
-import Checkbox from 'expo-checkbox';
-import { ThemeContext } from './ThemeContext';
-import { Colors } from './Colors';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { clearCredentials, login, setCredentials, setIsAuthenticate } from '../Redux/loginSlice';
+import Checkbox from "expo-checkbox";
+import { ThemeContext } from "./ThemeContext";
+import { Colors } from "./Colors";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import {
+  clearCredentials,
+  login,
+  setCredentials,
+  setIsAuthenticate,
+  setProductNeed,
+  setStartTimer,
+  setTimeDuration,
+} from "../Redux/loginSlice";
 // import { setwalletAmount } from '@/components/Redux/contactSlice';
 import { scale } from "react-native-size-matters";
-import { HelloWave } from './HelloWave';
-import { useNavigation } from '@react-navigation/native';
+import { HelloWave } from "./HelloWave";
+import { useNavigation } from "@react-navigation/native";
 import { scale as _scaleInt } from "react-native-size-matters";
 
 export const scaleInt = (size: number) => Math.round(scale(size));
@@ -20,14 +40,18 @@ export const scaleInt = (size: number) => Math.round(scale(size));
 // import Constants from "expo-constants";
 // import { t } from 'i18next';
 const Login = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
-  const navigation = useNavigation()
-  const { currentTheme } = useContext(ThemeContext)
+  const navigation = useNavigation();
+  const { currentTheme } = useContext(ThemeContext);
   const HEIGHT = scaleInt(250);
   const height = scaleInt(70); // current SVG height
-  const { width } = Dimensions.get('window');
-  const { email: savedEmail, password: savedPassword, rememberMe } = useSelector((state: any) => state.login);
+  const { width } = Dimensions.get("window");
+  const {
+    email: savedEmail,
+    password: savedPassword,
+    rememberMe,
+  } = useSelector((state: any) => state.login);
   const controlPointY = height * 1; // you can tweak this
   useEffect(() => {
     if (rememberMe) {
@@ -37,16 +61,19 @@ const Login = () => {
     }
   }, []);
 
-  const backgroundColor = currentTheme === 'dark' ? Colors.designblack : '';
-  const textColor = currentTheme === 'dark' ? Colors.white : Colors.NewAppColor;
-  const inputBorderColor = currentTheme === 'dark' ? Colors.white : '#000000';
+  const backgroundColor = currentTheme === "dark" ? Colors.designblack : "";
+  const textColor = currentTheme === "dark" ? Colors.white : Colors.NewAppColor;
+  const inputBorderColor = currentTheme === "dark" ? Colors.white : "#000000";
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [feedback, setFeedback] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
@@ -60,14 +87,14 @@ const Login = () => {
     const lowercase = text.toLowerCase();
     setEmail(lowercase);
     if (text.length === 0) {
-      setEmailError('');
+      setEmailError("");
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(lowercase)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
   const validatePassword = (text: string) => {
@@ -83,7 +110,10 @@ const Login = () => {
 
   const loginUser = async () => {
     if (isButtonDisabled) {
-      setFeedback({ message: 'Please correct the errors before submitting', type: 'error' });
+      setFeedback({
+        message: "Please correct the errors before submitting",
+        type: "error",
+      });
       return;
     }
     if (remember) {
@@ -93,42 +123,50 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/user/login`, {
-        email,
-        password
-      });
-      console.log("response", response.data)
+      const response = await axios.post(
+        `${process.env.EXPO_PUBLIC_BASE_URL}/user/login`,
+        {
+          email,
+          password,
+        }
+      );
+      console.log("response", response.data.user);
       if (response.data.statusCode === 1) {
-        setLoading(false)
-        setFeedback({ message: response.data.message, type: 'success' });
+        setLoading(false);
+        setFeedback({ message: response.data.message, type: "success" });
+        const startTimer = response.data.user?.timerStart;
+        const timeDuration = response.data.user?.timerDuration;
+        const productNeed = response.data.user?.productNeed;
+        dispatch(setStartTimer(startTimer));
+        dispatch(setTimeDuration(timeDuration));
+        dispatch(setProductNeed(productNeed));
         const token = response.data?.token;
         const user = response.data;
         // dispatch(setafterLoginUser(user))
-        setRemember(false)
+        setRemember(false);
         dispatch(login(token));
-        dispatch(setIsAuthenticate(true))
-        setEmail('');
-        setPassword('');
+        dispatch(setIsAuthenticate(true));
+        setEmail("");
+        setPassword("");
         setFeedback(null);
-      } 
-      else {
-        setFeedback({ message: response.data.message, type: 'error' });
-        console.log("error")
-        setEmail('');
-        setRemember(false)
-        setPassword('');
-        dispatch(setIsAuthenticate(false))
+      } else {
+        setFeedback({ message: response.data.message, type: "error" });
+        console.log("error");
+        setEmail("");
+        setRemember(false);
+        setPassword("");
+        dispatch(setIsAuthenticate(false));
         setTimeout(() => {
           setFeedback(null);
         }, 3000);
       }
     } catch (error) {
-      setFeedback({ message: error.message, type: 'error' });
-      console.log('loginpage', error)
-      setEmail('');
-      setRemember(false)
-      setPassword('');
-      dispatch(setIsAuthenticate(false))
+      setFeedback({ message: error.message, type: "error" });
+      console.log("loginpage", error);
+      setEmail("");
+      setRemember(false);
+      setPassword("");
+      dispatch(setIsAuthenticate(false));
       setTimeout(() => {
         setFeedback(null);
       }, 3000);
@@ -169,7 +207,8 @@ const Login = () => {
         flex: 1,
         // padding:20,
         height: "100%",
-        backgroundColor: currentTheme === "dark" ? Colors.black : Colors.naturalwhite,
+        backgroundColor:
+          currentTheme === "dark" ? Colors.black : Colors.naturalwhite,
       }}
     >
       <StatusBar
@@ -178,61 +217,122 @@ const Login = () => {
         translucent={false}
         hidden={false}
       />
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {/* Header */}
-        <View style={[styles.headerContainer, { height: HEIGHT, backgroundColor: "orange" }]}>
+        <View
+          style={[
+            styles.headerContainer,
+            { height: HEIGHT, backgroundColor: "orange" },
+          ]}
+        >
           <View style={styles.circleBackground}>
-            <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", gap: 20, alignItems: "center", marginBottom: scaleInt(15) }}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 20,
+                alignItems: "center",
+                marginBottom: scaleInt(15),
+              }}
+            >
               <Image
-                source={require('../../assets/Startlogo.png')} // Replace with your logo path
+                source={require("../../assets/Startlogo.png")} // Replace with your logo path
                 style={styles.logo}
-                resizeMode='contain'
+                resizeMode="contain"
               />
-              <View style={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
                 <Text style={styles.title2}>Bill</Text>
-                <View style={{ position: 'relative', width: scaleInt(25) }}>
-                  <Text style={{
-                    position: 'absolute',
-                    top: scaleInt(-9),
-                    left: scaleInt(1),
-                    color: '#fdb913',
-                    fontSize: scaleInt(60),
-                    zIndex: scaleInt(1),
-                  }}>
+                <View style={{ position: "relative", width: scaleInt(25) }}>
+                  <Text
+                    style={{
+                      position: "absolute",
+                      top: scaleInt(-9),
+                      left: scaleInt(1),
+                      color: "#fdb913",
+                      fontSize: scaleInt(60),
+                      zIndex: scaleInt(1),
+                    }}
+                  >
                     ´
                   </Text>
                   <Text style={styles.title2}>G</Text>
                 </View>
-                <Text style={[styles.title2, { marginLeft: scaleInt(4) }]}>e</Text>
-                <Text style={[styles.title2, { marginLeft: scaleInt(4) }]}>n</Text>
+                <Text style={[styles.title2, { marginLeft: scaleInt(4) }]}>
+                  e
+                </Text>
+                <Text style={[styles.title2, { marginLeft: scaleInt(4) }]}>
+                  n
+                </Text>
               </View>
             </View>
-            <Text style={styles.title}>
-              BillGen
-            </Text>
+            <Text style={styles.title}>BillGen</Text>
           </View>
           <Svg
             width={width}
             height={height}
             viewBox={`0 0 ${width} ${height}`}
-            style={{ width: '100%', position: "absolute", top: scaleInt(200) }}
+            style={{ width: "100%", position: "absolute", top: scaleInt(200) }}
           >
             <Path
-              d={`M0,0 Q${width / 2},${controlPointY} ${width},0 L${width},${height} L0,${height} Z`}
-              fill={currentTheme === "dark" ? Colors.black : Colors.naturalwhite}
+              d={`M0,0 Q${
+                width / 2
+              },${controlPointY} ${width},0 L${width},${height} L0,${height} Z`}
+              fill={
+                currentTheme === "dark" ? Colors.black : Colors.naturalwhite
+              }
             />
           </Svg>
         </View>
         {/* Input Fields */}
-        <Text style={{ fontSize: scaleInt(26), fontWeight: 'bold', color: textColor, marginBottom: scaleInt(10), marginTop: scaleInt(5), marginLeft: scaleInt(10) }}>
+        <Text
+          style={{
+            fontSize: scaleInt(26),
+            fontWeight: "bold",
+            color: textColor,
+            marginBottom: scaleInt(10),
+            marginTop: scaleInt(5),
+            marginLeft: scaleInt(10),
+          }}
+        >
           {/* {t('Hi')} {t("welcome")} */}
           Hi, Welcome
           <HelloWave />
         </Text>
         <View style={styles.inputContainer}>
-          <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: scaleInt(10) }}>
-            <MaterialIcons name="email" size={scaleInt(24)} color={currentTheme === "dark" ? Colors.white : Colors.NewAppColor} />
-            <View style={[styles.inputBox, { borderBottomColor: currentTheme === "dark" ? Colors.white : Colors.NewAppColor }]}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: scaleInt(10),
+            }}
+          >
+            <MaterialIcons
+              name="email"
+              size={scaleInt(24)}
+              color={
+                currentTheme === "dark" ? Colors.white : Colors.NewAppColor
+              }
+            />
+            <View
+              style={[
+                styles.inputBox,
+                {
+                  borderBottomColor:
+                    currentTheme === "dark" ? Colors.white : Colors.NewAppColor,
+                },
+              ]}
+            >
               <TextInput
                 placeholder="Email"
                 ref={inputRef}
@@ -240,17 +340,40 @@ const Login = () => {
                 placeholderTextColor={textColor}
                 value={email}
                 onChangeText={validateEmail}
-                keyboardType='email-address'
+                keyboardType="email-address"
                 autoCapitalize="none"
               />
             </View>
           </View>
           {/* <Text style={{width:"80%",margin:"auto"}}> */}
-          {emailError ? <Text style={styles.errorMessage}>{emailError}</Text> : null}
+          {emailError ? (
+            <Text style={styles.errorMessage}>{emailError}</Text>
+          ) : null}
           {/* </Text> */}
-          <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Feather name="lock" size={scaleInt(24)} color={currentTheme === "dark" ? Colors.white : Colors.NewAppColor} />
-            <View style={[styles.inputBox, { borderBottomColor: currentTheme === "dark" ? Colors.white : Colors.NewAppColor }]}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <Feather
+              name="lock"
+              size={scaleInt(24)}
+              color={
+                currentTheme === "dark" ? Colors.white : Colors.NewAppColor
+              }
+            />
+            <View
+              style={[
+                styles.inputBox,
+                {
+                  borderBottomColor:
+                    currentTheme === "dark" ? Colors.white : Colors.NewAppColor,
+                },
+              ]}
+            >
               <TextInput
                 style={[styles.input, { color: textColor }]}
                 placeholderTextColor={textColor}
@@ -258,15 +381,24 @@ const Login = () => {
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={validatePassword}
-              // keyboardType='numeric'
+                // keyboardType='numeric'
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Feather name={showPassword ? 'eye-off' : 'eye'} size={scaleInt(20)} color={currentTheme === "dark" ? Colors.white : Colors.NewAppColor} style={{ bottom: 2 }} />
+                <Feather
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={scaleInt(20)}
+                  color={
+                    currentTheme === "dark" ? Colors.white : Colors.NewAppColor
+                  }
+                  style={{ bottom: 2 }}
+                />
               </TouchableOpacity>
             </View>
           </View>
           {/* <Text style={{width:"80%",margin:"auto"}}> */}
-          {passwordError ? <Text style={styles.errorMessage}>{passwordError}</Text> : null}
+          {passwordError ? (
+            <Text style={styles.errorMessage}>{passwordError}</Text>
+          ) : null}
           {/* </Text>  */}
           {/* Remember Password */}
           <View style={styles.checkboxContainer}>
@@ -276,14 +408,29 @@ const Login = () => {
               onValueChange={handleRememberToggle}
               style={{ width: scaleInt(20), height: scaleInt(20) }}
             />
-            <Text style={[styles.checkboxLabel, { color: currentTheme === "dark" ? Colors.white : Colors.NewAppColor }]}>
+            <Text
+              style={[
+                styles.checkboxLabel,
+                {
+                  color:
+                    currentTheme === "dark" ? Colors.white : Colors.NewAppColor,
+                },
+              ]}
+            >
               {/* {t("rememberPassword")} */}
               rememberPassword
             </Text>
           </View>
           <Text style={{ textAlign: "center", marginTop: scaleInt(10) }}>
             {feedback && (
-              <Text style={[styles.feedbackText, feedback.type === 'error' ? styles.errorText : styles.successText]}>
+              <Text
+                style={[
+                  styles.feedbackText,
+                  feedback.type === "error"
+                    ? styles.errorText
+                    : styles.successText,
+                ]}
+              >
                 {feedback.message}
               </Text>
             )}
@@ -291,7 +438,12 @@ const Login = () => {
           {/* Login Button */}
           <TouchableOpacity
             onPress={loginUser}
-            style={[styles.loginButton, { opacity: isButtonDisabled ? 0.5 : 1 }]} disabled={isButtonDisabled}>
+            style={[
+              styles.loginButton,
+              { opacity: isButtonDisabled ? 0.5 : 1 },
+            ]}
+            disabled={isButtonDisabled}
+          >
             {loading ? (
               <>
                 <ActivityIndicator animating={true} size="small" color="#fff" />
@@ -303,55 +455,54 @@ const Login = () => {
               </Text>
             )}
           </TouchableOpacity>
-
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
-}
+};
 export default Login;
 // 🔧 Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     // position:"relative"
   },
   feedbackText: {
     textAlign: "center",
     borderRadius: scaleInt(10),
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: scaleInt(15),
   },
   successText: {
-    color: 'orange',
+    color: "orange",
   },
   errorText: {
-    color: 'red',
+    color: "red",
   },
   errorMessage: {
-    color: 'red',
+    color: "red",
     fontSize: scaleInt(14),
-    textAlign: "center"
+    textAlign: "center",
   },
   versionContainer: {
     flex: 1,
     //  position: 'absolute',
     justifyContent: "flex-end",
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   svg: {
-    position: 'absolute',
+    position: "absolute",
     bottom: scaleInt(-5),
   },
   inputContainer: {
     paddingHorizontal: scaleInt(20),
-    paddingBottom: "16%"
+    paddingBottom: "16%",
   },
   inputBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderBottomWidth: scaleInt(1),
     marginVertical: scaleInt(15),
     // paddingHorizontal: 5,
@@ -363,87 +514,87 @@ const styles = StyleSheet.create({
     // paddingLeft: 10,
     marginBottom: scaleInt(2),
     fontSize: scaleInt(14),
-    color: Colors.Appcolor
+    color: Colors.Appcolor,
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: scaleInt(10),
-    marginLeft: scaleInt(4)
+    marginLeft: scaleInt(4),
   },
   checkboxLabel: {
     marginLeft: scaleInt(10),
-    fontSize: scaleInt(14)
+    fontSize: scaleInt(14),
   },
   loginButton: {
     backgroundColor: Colors.NewAppColor,
     paddingVertical: scaleInt(12),
     borderRadius: scaleInt(8),
     marginTop: scaleInt(20),
-    alignItems: 'center',
-    marginHorizontal: scaleInt(15)
+    alignItems: "center",
+    marginHorizontal: scaleInt(15),
   },
   loginText: {
-    color: '#fff',
-    fontWeight: '600',
-    fontSize: scaleInt(15)
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: scaleInt(15),
   },
   linkText: {
     marginTop: scaleInt(15),
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: scaleInt(14),
     fontWeight: "500",
-    color: "black"
+    color: "black",
   },
   linkText2: {
     marginTop: scaleInt(15),
-    textAlign: 'right',
+    textAlign: "right",
     marginBottom: scaleInt(10),
     fontSize: scaleInt(14),
     fontWeight: "600",
-    color: "black"
+    color: "black",
   },
   link: {
-    color: '#217306',
-    fontWeight: 'bold',
+    color: "#217306",
+    fontWeight: "bold",
   },
   versionText: {
-    textAlign: 'center',
-    color: 'black',
+    textAlign: "center",
+    color: "black",
     fontSize: scaleInt(15),
-    fontWeight: "500"
+    fontWeight: "500",
   },
   headerContainer: {
-    backgroundColor: '#008184',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#008184",
+    alignItems: "center",
+    justifyContent: "center",
   },
   circleBackground: {
     // marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   logo: {
     width: scaleInt(90),
     height: scaleInt(90),
     // marginBottom: 10,
     borderRadius: scaleInt(30),
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   title: {
     fontSize: scaleInt(25),
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
     // marginBottom: 5,
   },
   title2: {
     fontSize: scaleInt(50),
-    fontWeight: '400',
-    color: '#e9feff',
+    fontWeight: "400",
+    color: "#e9feff",
     // marginBottom: 5,
   },
   subtitle: {
-    color: '#c7f2f4',
-    textAlign: 'center',
+    color: "#c7f2f4",
+    textAlign: "center",
     fontSize: scaleInt(14),
     fontWeight: "500",
     // marginBottom:scaleInt(20)
